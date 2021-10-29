@@ -8,7 +8,7 @@ public class RogueliteGame {
     public void start() {
 
         floorGenerator = new FloorGenerator();
-        currentFloor = floorGenerator.generateFloor(30,30,20);
+        currentFloor = floorGenerator.generateFloor(9,13,5);// level doesnt generate bugs but width does
 
     }
 

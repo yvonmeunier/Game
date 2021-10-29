@@ -140,7 +140,7 @@ public class FloorGenerator {
     private void printFloor(int[] floor) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                System.out.print(floor[i + width * j] == 1 ? "CC" : "  ");
+                System.out.print(floor[i + width * j] == 1 ? "\u001B[41m" + "  " + "\u001B[0m": "  ");
             }
             System.out.print("\n");
         }

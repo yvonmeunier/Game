@@ -8,7 +8,7 @@ public class RogueliteGame {
     public void start() {
 
         floorGenerator = new FloorGenerator();
-        currentFloor = floorGenerator.generateFloor(10,9,1);
+        currentFloor = floorGenerator.generateFloor(30,30,20);
 
     }
 

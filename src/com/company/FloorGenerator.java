@@ -34,7 +34,8 @@ public class FloorGenerator {
     }
 
     private void generateFloorQueue() {
-        roomQueue.add(35);
+        roomQueue.clear();
+        roomQueue.add((width * height) / 2);
         while (roomQueue.size() < numberOfRooms) {
             fillRoomQueue();
         }
@@ -62,6 +63,9 @@ public class FloorGenerator {
                 if (rnd.nextBoolean()) {
                     continue;
                 }
+                if (neighbours[i] < 0 || neighbours[i] >= (width * height)) {
+                    continue;
+                }
                 roomQueue.add(neighbours[i]);
             }
         }
@@ -73,7 +77,7 @@ public class FloorGenerator {
     }
 
     private boolean isInOfBound(int x, int y) {
-        return x > 0 || y > 0 || x < width || y < height;
+        return x >= 0 || y >= 0 || x <= width || y <= height;
     }
 
     private int getXFromIndex(int index) {
@@ -98,9 +102,9 @@ public class FloorGenerator {
         int[] neighbours;
         neighbours = getNeighbours(current);
 
-        for (int i = 0;i < neighbours.length; i++) {
-            for (Integer j:roomQueue) {
-                if (j == neighbours[i]){
+        for (int i = 0; i < neighbours.length; i++) {
+            for (Integer j : roomQueue) {
+                if (j == neighbours[i] && current != j) {
                     neighbourCount++;
                 }
             }
@@ -124,28 +128,22 @@ public class FloorGenerator {
         return new int[]{upNeighbour, downNeighbour, leftNeighbour, rightNeighbour};
     }
 
-    private int [] convertQueueToRooms(Queue<Integer> roomQueue) {
-        int [] result = new int[width * height];
+    private int[] convertQueueToRooms(Queue<Integer> roomQueue) {
+        int[] result = new int[width  * height];
 
-        for (Integer i:roomQueue) {
+        for (Integer i : roomQueue) {
             result[i] = 1;
         }
         return result;
     }
 
-    private void printFloor(int[]floor){
-        for (int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                if (floor[getIndex(j,i)]>0){
-                    System.out.print("\u001B[43m");
-                    System.out.print("  ");
-                    System.out.print("\u001B[0m");
-                }else{
-                    System.out.print("  ");
-                }
+    private void printFloor(int[] floor) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                System.out.print(floor[i + width * j] == 1 ? "CC" : "  ");
             }
-            System.out.println();
+            System.out.print("\n");
         }
-    }
 
+    }
 }

@@ -77,7 +77,7 @@ public class FloorGenerator {
     }
 
     private boolean isInOfBound(int x, int y) {
-        return x >= 0 || y >= 0 || x <= width || y <= height;
+        return x >= 0 && y >= 0 && x < width && y < height;
     }
 
     private int getXFromIndex(int index) {
@@ -129,7 +129,7 @@ public class FloorGenerator {
     }
 
     private int[] convertQueueToRooms(Queue<Integer> roomQueue) {
-        int[] result = new int[width  * height];
+        int[] result = new int[width * height];
 
         for (Integer i : roomQueue) {
             result[i] = 1;
@@ -138,9 +138,9 @@ public class FloorGenerator {
     }
 
     private void printFloor(int[] floor) {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                System.out.print(floor[i + width * j] == 1 ? "\u001B[41m" + "  " + "\u001B[0m": "  ");
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
+                System.out.print(floor[i + width * j] == 1 ? "\u001B[41m" + "  " + "\u001B[0m" : "  ");
             }
             System.out.print("\n");
         }

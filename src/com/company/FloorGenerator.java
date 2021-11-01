@@ -9,14 +9,16 @@ public class FloorGenerator {
     private int[] rooms;
     private int width, height, level;
     private int numberOfRooms;
-    private Queue<Integer> roomQueue;
-    private Queue<Integer> deadEndQueue;
+    private HashSet<Integer> roomQueue;
+    private HashSet<Integer> deadEndQueue;
 
     public Floor generateFloor(int width, int height, int level) {
         generatedFloor = new Floor();
+
         this.width = width;
         this.height = height;
         this.level = level;
+
         init();
         generateFloorQueue();
         rooms = convertQueueToRooms(roomQueue);
@@ -28,14 +30,14 @@ public class FloorGenerator {
     private void init() {
         rooms = new int[width * height];
         rnd = new Random();
-        roomQueue = new LinkedList<>();
-        deadEndQueue = new LinkedList<>();
+        roomQueue = new HashSet<>();
+        deadEndQueue = new HashSet<>();
         numberOfRooms = (int) (rnd.nextInt(2) + 5 + level * 2.6);
     }
 
     private void generateFloorQueue() {
         roomQueue.clear();
-        roomQueue.add((width * (height / 2)));
+        roomQueue.add((width * height) / 2);
         while (roomQueue.size() < numberOfRooms) {
             fillRoomQueue();
         }
@@ -43,30 +45,22 @@ public class FloorGenerator {
 
     private void fillRoomQueue() {
 
-        int[] neighbours;
-        Integer[] roomQueueArray = new Integer[roomQueue.size()];
-        roomQueueArray = roomQueue.toArray(roomQueueArray);
+        Integer[] neighbours;
+        Integer[] roomQueueArray = roomQueue.toArray(new Integer[0]);
         for (Integer current : roomQueueArray) {
             neighbours = getNeighbours(current);
 
-            for (int i = 0; i < neighbours.length; i++) {
-
-                if (!isInOfBound(getXFromIndex(neighbours[i]), getYFromIndex(neighbours[i]))) {
+            for (Integer neighbour : neighbours) {
+                if (roomQueue.contains(neighbour)) {
                     continue;
                 }
-                if (isNumberInQueue(neighbours[i])) {
-                    continue;
-                }
-                if (doesNeighbourHasMoreThanOneNeighbour(neighbours[i])) {
+                if (doesNeighbourHasMoreThanOneNeighbour(neighbour)) {
                     continue;
                 }
                 if (rnd.nextBoolean()) {
                     continue;
                 }
-                if (neighbours[i] < 0 || neighbours[i] >= (width * height)) {
-                    continue;
-                }
-                roomQueue.add(neighbours[i]);
+                roomQueue.add(neighbour);
             }
         }
 
@@ -77,7 +71,7 @@ public class FloorGenerator {
     }
 
     private boolean isInOfBound(int x, int y) {
-        return x >= 0 || y >= 0 || x <= width || y <= height;//x >= 0 && y >= 0 && x < width && y < height // x >= 0 || y >= 0 || x <= width || y <= height
+        return x >= 0 && y >= 0 && x < width && y < height;
     }
 
     private int getXFromIndex(int index) {
@@ -88,48 +82,32 @@ public class FloorGenerator {
         return (index / width) % height;
     }
 
-    private boolean isNumberInQueue(int number) {
-        for (Integer current : roomQueue) {
-            if (current == number) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean doesNeighbourHasMoreThanOneNeighbour(int current) {
         int neighbourCount = 0;
-        int[] neighbours;
+        Integer[] neighbours;
         neighbours = getNeighbours(current);
 
-        for (int i = 0; i < neighbours.length; i++) {
-            for (Integer j : roomQueue) {
-                if (j == neighbours[i] && current != j) {
-                    neighbourCount++;
-                }
-            }
+        for (Integer neighbour : neighbours) {
+            if (roomQueue.contains(neighbour) && current != neighbour) neighbourCount++;
         }
 
         return neighbourCount > 1;
     }
 
-    private int[] getNeighbours(int current) {
+    private Integer[] getNeighbours(int current) {
 
-        int upNeighbour;
-        int downNeighbour;
-        int leftNeighbour;
-        int rightNeighbour;
+        ArrayList<Integer> neighbours = new ArrayList<>();
 
-        upNeighbour = current - width;
-        downNeighbour = current + width;
-        leftNeighbour = current - 1;
-        rightNeighbour = current + 1;
+        if (getYFromIndex(current) > 0) neighbours.add(current - width);
+        if (getYFromIndex(current) < height - 1) neighbours.add(current + width);
+        if (getXFromIndex(current) > 0) neighbours.add(current - 1);
+        if (getXFromIndex(current) < width - 1) neighbours.add(current + 1);
 
-        return new int[]{upNeighbour, downNeighbour, leftNeighbour, rightNeighbour};
+        return neighbours.toArray(new Integer[0]);
     }
 
-    private int[] convertQueueToRooms(Queue<Integer> roomQueue) {
-        int[] result = new int[width * height];
+    private int[] convertQueueToRooms(HashSet<Integer> roomQueue) {
+        int[] result = new int[width  * height];
 
         for (Integer i : roomQueue) {
             result[i] = 1;
@@ -140,7 +118,7 @@ public class FloorGenerator {
     private void printFloor(int[] floor) {
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-                System.out.print(floor[i + width * j] == 1 ? "\u001B[41m" + "  " + "\u001B[0m" : "  ");
+                System.out.print(floor[i + width * j] == 1 ? "\u001B[41m" + "  " + "\u001B[0m": "  ");
             }
             System.out.print("\n");
         }

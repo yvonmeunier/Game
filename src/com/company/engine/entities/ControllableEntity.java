@@ -1,6 +1,6 @@
-package com.company.Engine.entities;
+package com.company.engine.entities;
 
-import com.company.Engine.controls.MovementController;
+import com.company.engine.controls.MovementController;
 
 public abstract class ControllableEntity extends MovableEntity {
 

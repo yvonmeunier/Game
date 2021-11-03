@@ -1,4 +1,4 @@
-package com.company.Engine;
+package com.company.engine;
 
 import java.awt.*;
 

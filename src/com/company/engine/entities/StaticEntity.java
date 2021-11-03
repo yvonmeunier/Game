@@ -1,6 +1,6 @@
-package com.company.Engine.entities;
+package com.company.engine.entities;
 
-import com.company.Engine.Buffer;
+import com.company.engine.Buffer;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
-package com.company.Engine;
+package com.company.engine;
 
-import com.company.Engine.entities.StaticEntity;
+import com.company.engine.entities.StaticEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;

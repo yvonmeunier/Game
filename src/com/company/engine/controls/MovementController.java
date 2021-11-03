@@ -1,4 +1,4 @@
-package com.company.Engine.controls;
+package com.company.engine.controls;
 
 import java.awt.event.KeyEvent;
 

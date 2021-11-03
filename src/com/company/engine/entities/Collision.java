@@ -1,7 +1,7 @@
-package com.company.Engine.entities;
+package com.company.engine.entities;
 
-import com.company.Engine.CollidableRepository;
-import com.company.Engine.controls.Direction;
+import com.company.engine.CollidableRepository;
+import com.company.engine.controls.Direction;
 
 import java.awt.*;
 

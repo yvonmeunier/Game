@@ -1,8 +1,8 @@
 package com.company.engine.math;
 
 public class Point {
-    private int x;
-    private int y;
+    private float x;
+    private float y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -17,11 +17,11 @@ public class Point {
         return (float) Math.sqrt(((end.y - start.y) * (end.y - start.y)) + ((end.x - start.x) * (end.x - start.x)));
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 }

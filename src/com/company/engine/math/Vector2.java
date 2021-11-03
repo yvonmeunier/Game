@@ -70,4 +70,11 @@ public class Vector2 {
         return (float) Math.sqrt(((end.y - start.y) * (end.y - start.y)) + ((end.x - start.x) * (end.x - start.x)));
     }
 
+    @Override
+    public String toString() {
+        return "Vector2{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

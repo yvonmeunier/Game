@@ -8,7 +8,6 @@ public class RogueliteGame extends Game {
     FloorGenerator floorGenerator;
     Floor currentFloor;
 
-
     @Override
     public void init() {
         floorGenerator = new FloorGenerator();

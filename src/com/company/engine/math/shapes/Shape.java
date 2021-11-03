@@ -1,6 +1,6 @@
 package com.company.engine.math.shapes;
 
-abstract class Shape {
+public abstract class Shape {
     protected float x;
     protected float y;
 

@@ -1,15 +1,32 @@
 package com.company;
 
-public class RogueliteGame {
+import com.company.engine.Buffer;
+import com.company.engine.Game;
+
+public class RogueliteGame extends Game {
 
     FloorGenerator floorGenerator;
     Floor currentFloor;
 
-    public void start() {
 
+    @Override
+    public void init() {
         floorGenerator = new FloorGenerator();
-        currentFloor = floorGenerator.generateFloor(9,13,3);
+        currentFloor = new Floor();
+    }
+
+    @Override
+    public void conclude() {
 
     }
 
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void draw(Buffer buffer) {
+
+    }
 }

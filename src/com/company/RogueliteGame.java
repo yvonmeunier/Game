@@ -4,14 +4,13 @@ import com.company.engine.Buffer;
 import com.company.engine.Game;
 
 public class RogueliteGame extends Game {
-
-    FloorGenerator floorGenerator;
-    Floor currentFloor;
+    GamePad gamePad;
+    Player player;
 
     @Override
     public void init() {
-        floorGenerator = new FloorGenerator();
-        currentFloor = new Floor();
+        gamePad = new GamePad();
+        player = new Player(gamePad);
     }
 
     @Override
@@ -21,6 +20,11 @@ public class RogueliteGame extends Game {
 
     @Override
     public void update() {
+        if (gamePad.isQuitPressed()) {
+            stop();
+        }
+
+        player.update();
 
     }
 

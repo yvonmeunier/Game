@@ -6,17 +6,10 @@ public class Circle extends Shape {
 
     private float radius;
 
-    public Circle(float radius, Point coord) {
+    public Circle(float radius) {
         this.radius = radius;
-        this.x = coord.getX();
-        this.y = coord.getY();
     }
 
-    public Circle(float radius, float x, float y) {
-        this.radius = radius;
-        this.x = x;
-        this.y = y;
-    }
 
     private float getDiameter() {
         return radius * 2;

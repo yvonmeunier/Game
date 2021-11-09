@@ -9,8 +9,8 @@ public class Point {
         this.y = y;
     }
 
-    public Vector2 toVector() {
-        return new Vector2(x, y);
+    public Vector2D toVector() {
+        return new Vector2D(x, y);
     }
 
     public static float getDistanceBetweenPoints(Point start, Point end) {

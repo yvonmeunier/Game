@@ -2,7 +2,7 @@ package com.company;
 
 public class Room {
 
-    // 15 * 9 tiles
+    // 31 * 19
     // Room is Array of Tile
 
 }

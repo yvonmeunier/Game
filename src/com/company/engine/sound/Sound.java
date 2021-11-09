@@ -34,9 +34,9 @@ public class Sound {
     }
 
     private void play(boolean loop, boolean allowInterrupt) {
-        if(clip.isRunning() && allowInterrupt) {
-            clip.stop();
-        } else if(clip.isRunning()){
+        if(isRunning() && allowInterrupt) {
+            stop();
+        } else if(isRunning()){
             return;
         }
 

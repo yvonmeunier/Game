@@ -1,4 +1,4 @@
-package com.company.Tiled;
+package com.company.WorldGen;
 
 public class TileData {
     public int tileID;

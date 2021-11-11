@@ -1,9 +1,10 @@
-package com.company.Tiled;
+package com.company.WorldGen;
 
-import com.company.Room;
+import com.company.WorldGen.Room;
+import com.company.Tiled.XMLParser;
 import org.w3c.dom.Node;
 
-public class RoomParser extends XMLParser<Room>{
+public class RoomParser extends XMLParser<Room> {
     public RoomParser(String file) {
         super(file);
     }
@@ -13,6 +14,7 @@ public class RoomParser extends XMLParser<Room>{
         Node mapNode = document.getElementsByTagName("map").item(0);
         int width = Integer.parseInt(mapNode.getAttributes().getNamedItem("width").getTextContent());
         int height = Integer.parseInt(mapNode.getAttributes().getNamedItem("height").getTextContent());
+
         Node dataNode = document.getElementsByTagName("data").item(0);
         String[] encodedStringData = dataNode.getTextContent().split(",");
         int[] encodedIntData = new int[width  * height];

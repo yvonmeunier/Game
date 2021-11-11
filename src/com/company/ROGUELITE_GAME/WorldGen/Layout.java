@@ -1,4 +1,4 @@
-package com.company.WorldGen;
+package com.company.ROGUELITE_GAME.WorldGen;
 
 import com.company.engine.entities.StaticEntity;
 

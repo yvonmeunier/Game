@@ -1,4 +1,4 @@
-package com.company;
+package com.company.ROGUELITE_GAME;
 
 import com.company.engine.RenderingEngine;
 import com.company.engine.controls.MovementController;

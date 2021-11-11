@@ -1,4 +1,4 @@
-package com.company.WorldGen;
+package com.company.ROGUELITE_GAME.WorldGen;
 
 import java.util.*;
 
@@ -22,6 +22,7 @@ public class FloorGenerator {
         init();
         generateFloorQueue();
         rooms = convertQueueToRooms(roomQueue);
+        // DEBUG
         printFloor(rooms);
 
         return generatedFloor;

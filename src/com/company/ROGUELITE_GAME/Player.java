@@ -1,4 +1,4 @@
-package com.company;
+package com.company.ROGUELITE_GAME;
 
 import com.company.engine.Buffer;
 import com.company.engine.controls.MovementController;
@@ -6,7 +6,6 @@ import com.company.engine.entities.ControllableEntity;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.entities.StaticEntity;
 import com.company.engine.math.shapes.Rectangle;
-import com.company.engine.math.shapes.Shape;
 
 public class Player extends ControllableEntity {
 

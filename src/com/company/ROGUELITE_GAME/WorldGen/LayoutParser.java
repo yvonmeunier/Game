@@ -1,6 +1,6 @@
-package com.company.WorldGen;
+package com.company.ROGUELITE_GAME.WorldGen;
 
-import com.company.Tiled.XMLParser;
+import com.company.engine.Tiled.XMLParser;
 
 public class LayoutParser extends XMLParser {
     public LayoutParser(String file) {

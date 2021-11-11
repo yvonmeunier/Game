@@ -1,4 +1,4 @@
-package com.company;
+package com.company.ROGUELITE_GAME;
 
 public class App {
 

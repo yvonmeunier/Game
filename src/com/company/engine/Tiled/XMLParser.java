@@ -1,4 +1,4 @@
-package com.company.Tiled;
+package com.company.engine.Tiled;
 
 import org.w3c.dom.Document;
 

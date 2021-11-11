@@ -1,7 +1,6 @@
-package com.company.WorldGen;
+package com.company.ROGUELITE_GAME.WorldGen;
 
-import com.company.WorldGen.Room;
-import com.company.Tiled.XMLParser;
+import com.company.engine.Tiled.XMLParser;
 import org.w3c.dom.Node;
 
 public class RoomParser extends XMLParser<Room> {

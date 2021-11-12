@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class RenderingEngine {
 
-    private JFrame frame;
+
     private JPanel panel;
     private BufferedImage bufferedImage;
     private int viewPortX;
@@ -16,9 +16,11 @@ public class RenderingEngine {
 
     private static RenderingEngine instance;
 
+    private Screen screen;
+
     public static RenderingEngine getInstance() {
 
-        if (instance == null){
+        if (instance == null) {
             instance = new RenderingEngine();
         }
 
@@ -51,13 +53,13 @@ public class RenderingEngine {
 
     private RenderingEngine() {
 
-        initializeFrame();
+        initializeScreen();
         initializePanel();
 
     }
 
     public Buffer getRenderingBuffer() {
-        bufferedImage = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bufferedImage.createGraphics();
         graphics.setRenderingHints(getOptimalRenderingHints());
         return new Buffer(graphics);
@@ -71,29 +73,25 @@ public class RenderingEngine {
     }
 
     public void start() {
-        frame.setVisible(true);
+        screen.start();
     }
 
     public void stop() {
-        frame.setVisible(false);
-        frame.dispose();
+        screen.end();
     }
 
     public void addKeyListener(KeyListener listener) {
         panel.addKeyListener(listener);
     }
 
-    private void initializeFrame() {
+    private void initializeScreen() {
+        screen = new Screen();
+        screen.setTitle("TEST");
+        screen.setSize(1920,1080);
+    }
 
-        frame = new JFrame();
-        frame.setSize(800, 600);
-        frame.setLocationRelativeTo(null);// Center Frame on screen
-        frame.setResizable(false);
-        frame.setTitle("TOTALLY NOT A GAME");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setState(JFrame.NORMAL);
-        frame.setUndecorated(true); //Delete window border
-
+    public Screen getScreen() {
+        return screen;
     }
 
     private void initializePanel() {
@@ -102,7 +100,7 @@ public class RenderingEngine {
         panel.setBackground(Color.BLUE);
         panel.setFocusable(true);
         panel.setDoubleBuffered(true);
-        frame.add(panel); // Add panel in JFrame
+        screen.setPanel(panel); // Add panel in JFrame
 
     }
 

@@ -1,7 +1,5 @@
 package com.company.engine.math.shapes;
 
-import com.company.engine.math.Point;
-
 public class Rectangle extends Shape {
 
     private float width;
@@ -11,5 +9,17 @@ public class Rectangle extends Shape {
         this.width = width;
         this.height = height;
     }
+    @Override
+    public float getWidth() {
+        return width;
+    }
+    @Override
+    public float getHeight() {
+        return height;
+    }
 
+    @Override
+    public Shape getShape() {
+        return this;
+    }
 }

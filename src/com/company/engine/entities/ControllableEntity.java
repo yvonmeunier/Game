@@ -10,6 +10,7 @@ public abstract class ControllableEntity extends MovableEntity {
         this.controller = controller;
     }
 
-
-
+    public MovementController getController() {
+        return controller;
+    }
 }

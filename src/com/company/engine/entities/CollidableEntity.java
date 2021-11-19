@@ -14,5 +14,14 @@ public abstract class CollidableEntity extends StaticEntity {
     }
 
     public void setHitBox(Shape shape) {
-        this.hitBox = shape; }
+        this.hitBox = shape;
+    }
+
+    public Shape getHurtBox() {
+        return hurtBox;
+    }
+
+    public Shape getHitBox() {
+        return hitBox;
+    }
 }

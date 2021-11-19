@@ -101,7 +101,6 @@ public class RenderingEngine {
         panel.setFocusable(true);
         panel.setDoubleBuffered(true);
         screen.setPanel(panel); // Add panel in JFrame
-
     }
 
     private RenderingHints getOptimalRenderingHints() {

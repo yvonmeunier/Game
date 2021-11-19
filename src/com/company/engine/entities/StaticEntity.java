@@ -7,12 +7,13 @@ import com.company.engine.math.shapes.Shape;
 public abstract class StaticEntity {
 
     private Point coordinates;
-    private Shape shape;
 
-    public void setShape(Shape shape) {
+    public Point getCoordinates() {
+        return coordinates;
+    }
 
-        this.shape = shape;
-
+    public void setCoordinates(Point coordinates) {
+        this.coordinates = coordinates;
     }
 
     public abstract void draw(Buffer buffer);

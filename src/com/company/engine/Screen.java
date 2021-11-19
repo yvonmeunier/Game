@@ -26,6 +26,8 @@ public class Screen {
             }
             device.setDisplayMode(fullscreenDisplayMode);
             frame.setLocationRelativeTo(null);
+            frame.setAlwaysOnTop(true);
+            frame.requestFocus();
             isFullscreenMode = true;
         }
     }
@@ -37,6 +39,8 @@ public class Screen {
             }
             device.setDisplayMode(windowedDisplayMode);
             frame.setLocationRelativeTo(null);
+            frame.setAlwaysOnTop(true);
+            frame.requestFocus();
             isFullscreenMode = false;
         }
     }

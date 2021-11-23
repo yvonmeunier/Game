@@ -29,17 +29,33 @@ public class Player extends ControllableEntity {
         // apply player's desired vector
         if (getController().isUpPressed()) {
             setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,-1),0.3f)));
+        }else {
+            if (getController().isMoving()){
+                setCurrentVector(new Vector2D(getCurrentVector().x,0));
+            }
         }
         if (getController().isDownPressed()){
             setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,1),0.3f)));
+        }else {
+            if (getController().isMoving()){
+                setCurrentVector(new Vector2D(getCurrentVector().x,0));
+            }
         }
         if (getController().isLeftPressed()){
             setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(-1,0),0.3f)));
+        }else {
+            if (getController().isMoving()){
+                setCurrentVector(new Vector2D(0,getCurrentVector().y));
+            }
         }
         if (getController().isRightPressed()){
             setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(1,0),0.3f)));
+        }else {
+            if (getController().isMoving()){
+                setCurrentVector(new Vector2D(0,getCurrentVector().y));
+            }
         }
-        if ((getController().isDownPressed() && (getController().isLeftPressed() || getController().isRightPressed())) || (getController().isUpPressed() && (getController().isLeftPressed() || getController().isRightPressed()))) {
+        if (getCurrentVector() == Vector2D.ONE || getCurrentVector() == Vector2D.MINUS_ONE) {
             setCurrentVector(getCurrentVector().multiplyVector(0.7f));
         }
         setCurrentVector(getCurrentVector().multiplyVector(2));//speed multiplier

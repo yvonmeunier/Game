@@ -4,6 +4,7 @@ public class Vector2D {
 
     public static final Vector2D ZERO = new Vector2D();
     public static final Vector2D ONE = new Vector2D(1);
+    public static final Vector2D MINUS_ONE = new Vector2D(-1,-1);
     public float x;
     public float y;
 

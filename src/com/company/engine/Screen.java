@@ -58,11 +58,14 @@ public class Screen {
     }
 
     public void showCursor() {
-        frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));}
 
     public void showCrossHair() {
         frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    }
+
+    public void showLoadingCursor() {
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     }
 
     private void initializeFrame() {

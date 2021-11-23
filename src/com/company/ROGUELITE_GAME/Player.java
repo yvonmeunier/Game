@@ -27,8 +27,6 @@ public class Player extends ControllableEntity {
     public void update() {
         super.update();
         updateVector();
-        setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));//speed multiplier
-        capSpeed();
         move();
     }
 
@@ -64,6 +62,8 @@ public class Player extends ControllableEntity {
         if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
             setCurrentVector(getCurrentVector().multiplyVector(0.7f));
         }
+        setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));//speed multiplier
+        capSpeed();
     }
 
 }

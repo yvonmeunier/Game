@@ -2,6 +2,7 @@ package com.company.ROGUELITE_GAME;
 
 import com.company.engine.Buffer;
 import com.company.engine.Game;
+import com.company.engine.RenderingEngine;
 import com.company.engine.math.Point;
 
 public class RogueliteGame extends Game {
@@ -12,6 +13,7 @@ public class RogueliteGame extends Game {
     public void init() {
         gamePad = new GamePad();
         player = new Player(gamePad,new Point(32,32));
+        RenderingEngine.getInstance().getScreen().showCrossHair();
     }
 
     @Override

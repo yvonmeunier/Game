@@ -37,6 +37,23 @@ public abstract class MovableEntity extends UpdatableEntity {
         setCoordinates(new Point(getCoordinates().getX() + getCurrentVector().x, getCoordinates().getY() + getCurrentVector().y));
     }
 
+    public void capSpeed() {
+
+        if (getCurrentVector().x > getSpeed()) {
+            setCurrentVector(new Vector2D(getSpeed(),getCurrentVector().y));
+        }
+        if (getCurrentVector().x < -getSpeed()) {
+            setCurrentVector(new Vector2D(-getSpeed(),getCurrentVector().y));
+        }
+        if (getCurrentVector().y > getSpeed()) {
+            setCurrentVector(new Vector2D(getCurrentVector().x,getSpeed()));
+        }
+        if (getCurrentVector().y < -getSpeed()) {
+            setCurrentVector(new Vector2D(getCurrentVector().x,-getSpeed()));
+        }
+
+    }
+
     public Vector2D getCurrentVector() {
         return currentVector;
     }

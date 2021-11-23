@@ -13,4 +13,5 @@ public abstract class ControllableEntity extends MovableEntity {
     public MovementController getController() {
         return controller;
     }
+
 }

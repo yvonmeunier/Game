@@ -26,38 +26,9 @@ public class Player extends ControllableEntity {
     @Override
     public void update() {
         super.update();
-        // friction
-        setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),Vector2D.ZERO,getAccelerationRate())));
-        // apply player's desired vector
-        if (getController().isUpPressed()) {
-            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,-1),getAccelerationRate())));
-        }
-        if (getController().isDownPressed()){
-            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,1),getAccelerationRate())));
-        }
-        if (getController().isLeftPressed()){
-            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(-1,0),getAccelerationRate())));
-        }
-        if (getController().isRightPressed()){
-            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(1,0),getAccelerationRate())));
-        }
-        if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
-            setCurrentVector(getCurrentVector().multiplyVector(0.7f));
-        }
+        updateVector();
         setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));//speed multiplier
-        // speed cap
-        if (getCurrentVector().x > getSpeed()) {
-            setCurrentVector(new Vector2D(getSpeed(),getCurrentVector().y));
-        }
-        if (getCurrentVector().x < -getSpeed()) {
-            setCurrentVector(new Vector2D(-getSpeed(),getCurrentVector().y));
-        }
-        if (getCurrentVector().y > getSpeed()) {
-            setCurrentVector(new Vector2D(getCurrentVector().x,getSpeed()));
-        }
-        if (getCurrentVector().y < -getSpeed()) {
-            setCurrentVector(new Vector2D(getCurrentVector().x,-getSpeed()));
-        }
+        capSpeed();
         move();
     }
 
@@ -75,4 +46,24 @@ public class Player extends ControllableEntity {
     public void draw(Buffer buffer) {
         buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
     }
+
+    private void updateVector() {
+        setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),Vector2D.ZERO,getAccelerationRate())));
+        if (getController().isUpPressed()) {
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,-1),getAccelerationRate())));
+        }
+        if (getController().isDownPressed()){
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,1),getAccelerationRate())));
+        }
+        if (getController().isLeftPressed()){
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(-1,0),getAccelerationRate())));
+        }
+        if (getController().isRightPressed()){
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(1,0),getAccelerationRate())));
+        }
+        if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
+            setCurrentVector(getCurrentVector().multiplyVector(0.7f));
+        }
+    }
+
 }

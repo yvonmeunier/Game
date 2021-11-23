@@ -24,23 +24,39 @@ public class Player extends ControllableEntity {
     @Override
     public void update() {
         super.update();
-        setCurrentVector(Vector2D.lerp(getCurrentVector(),getCurrentVector().multiplyVector(-1),0.3f));
+        // friction
+        setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),Vector2D.ZERO,0.3f)));
+        // apply player's desired vector
         if (getController().isUpPressed()) {
-            setCurrentVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,-1),0.3f).addVector(getCurrentVector()));
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,-1),0.3f)));
         }
         if (getController().isDownPressed()){
-            setCurrentVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,1),0.3f).addVector(getCurrentVector()));
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(0,1),0.3f)));
         }
         if (getController().isLeftPressed()){
-            setCurrentVector(Vector2D.lerp(getCurrentVector(),new Vector2D(-1,0),0.3f).addVector(getCurrentVector()));
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(-1,0),0.3f)));
         }
         if (getController().isRightPressed()){
-            setCurrentVector(Vector2D.lerp(getCurrentVector(),new Vector2D(1,0),0.3f).addVector(getCurrentVector()));
+            setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(),new Vector2D(1,0),0.3f)));
         }
         if ((getController().isDownPressed() && (getController().isLeftPressed() || getController().isRightPressed())) || (getController().isUpPressed() && (getController().isLeftPressed() || getController().isRightPressed()))) {
-            getCurrentVector().multiplyVector(0.7f);
+            setCurrentVector(getCurrentVector().multiplyVector(0.7f));
         }
-        getCurrentVector().multiplyVector(8);//speed
+        setCurrentVector(getCurrentVector().multiplyVector(2));//speed multiplier
+        // speed cap
+        if (getCurrentVector().x > 2) {
+            setCurrentVector(new Vector2D(2,getCurrentVector().y));
+        }
+        if (getCurrentVector().x < -2) {
+            setCurrentVector(new Vector2D(-2,getCurrentVector().y));
+        }
+        if (getCurrentVector().y > 2) {
+            setCurrentVector(new Vector2D(getCurrentVector().x,2));
+        }
+        if (getCurrentVector().y < -2) {
+            setCurrentVector(new Vector2D(getCurrentVector().x,-2));
+        }
+        System.out.println(getCurrentVector().toString());
         move();
     }
 

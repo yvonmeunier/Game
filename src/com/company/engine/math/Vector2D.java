@@ -63,7 +63,7 @@ public class Vector2D {
     }
 
     public static Vector2D lerp(Vector2D start, Vector2D end, float percentage) {
-        return new Vector2D((start.x + percentage * (end.x - start.x)), (start.y + percentage * (end.y - start.y)));
+        return new Vector2D(((1 - percentage) * start.x + percentage * end.x),((1 - percentage) * start.y + percentage * end.y));
     }
 
     public static float getDistanceBetweenVectors(Vector2D start, Vector2D end) {

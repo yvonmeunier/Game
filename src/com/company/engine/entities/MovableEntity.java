@@ -6,6 +6,24 @@ import com.company.engine.math.Vector2D;
 public abstract class MovableEntity extends UpdatableEntity {
 
     private Vector2D currentVector;
+    private float accelerationRate;
+    private float speed;
+
+    public float getAccelerationRate() {
+        return accelerationRate;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setAccelerationRate(float accelerationRate) {
+        this.accelerationRate = accelerationRate;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 
     @Override
     public void update() {
@@ -16,7 +34,7 @@ public abstract class MovableEntity extends UpdatableEntity {
 
     public void move() {
 
-        setCoordinates(new Point(getCoordinates().getX() + getCurrentVector().x,getCoordinates().getY() + getCurrentVector().y));
+        setCoordinates(new Point(getCoordinates().getX() + getCurrentVector().x, getCoordinates().getY() + getCurrentVector().y));
     }
 
     public Vector2D getCurrentVector() {

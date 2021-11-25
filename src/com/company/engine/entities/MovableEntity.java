@@ -3,11 +3,15 @@ package com.company.engine.entities;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 
-public abstract class MovableEntity extends UpdatableEntity {
+public abstract class MovableEntity extends UpdatableEntity implements Cloneable {
 
     private Vector2D currentVector;
     private float accelerationRate;
     private float speed;
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public float getAccelerationRate() {
         return accelerationRate;

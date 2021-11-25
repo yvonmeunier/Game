@@ -1,6 +1,7 @@
 package com.company.engine.math;
 
 import com.company.engine.entities.CollidableEntity;
+import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.shapes.Circle;
 import com.company.engine.math.shapes.Rectangle;
 
@@ -49,5 +50,10 @@ public class CollisionManager {
         return distance < aCirc.getRadius() + bCirc.getRadius();
     }
 
+    public static boolean isGoingToCollide(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
+        MovableEntity emulatedA = (MovableEntity) a.clone();
+        emulatedA.move();
+        return collisionCheck(emulatedA,b);
+    }
 
 }

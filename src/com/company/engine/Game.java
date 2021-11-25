@@ -12,7 +12,7 @@ public abstract class Game {
 
     public abstract void conclude();
 
-    public abstract void update();
+    public abstract void update() throws CloneNotSupportedException;
 
     public abstract void draw(Buffer buffer);
 
@@ -23,7 +23,7 @@ public abstract class Game {
     }
 
     // final prevents overrides but children keep access to method
-    public final void start() {
+    public final void start() throws CloneNotSupportedException {
         init();
         maintain();
         conclude();
@@ -38,7 +38,7 @@ public abstract class Game {
     }
 
     //run
-    private void maintain() {
+    private void maintain() throws CloneNotSupportedException {
 
         renderingEngine.start();
 

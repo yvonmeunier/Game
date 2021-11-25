@@ -9,7 +9,6 @@ import com.company.engine.entities.StaticEntity;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Rectangle;
-import com.company.engine.math.shapes.Shape;
 
 import java.awt.*;
 
@@ -35,7 +34,6 @@ public class Player extends ControllableEntity {
                 MovingRepository.getInstance().getEntities().remove(this);
             }
         }
-        move();
     }
 
     @Override
@@ -50,8 +48,8 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        //buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
-        buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f,Color.GREEN);
+        buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
+        //buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f,Color.GREEN);
     }
 
     private void updateVector() {

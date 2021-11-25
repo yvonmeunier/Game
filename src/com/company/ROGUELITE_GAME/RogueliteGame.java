@@ -8,7 +8,6 @@ import com.company.engine.Game;
 import com.company.engine.RenderingEngine;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
-import com.company.engine.entities.StaticEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 
@@ -23,8 +22,8 @@ public class RogueliteGame extends Game {
         player = new Player(gamePad,new Point(0,0));
         blockade = new Blockade(new Point(100,100));
         CollidableRepository.getInstance().getEntities().add(player);
-        MovableRepository.getInstance().getEntities().add(player);
         CollidableRepository.getInstance().getEntities().add(blockade);
+        MovableRepository.getInstance().getEntities().add(player);
         RenderingEngine.getInstance().getScreen().showCrossHair();
     }
 
@@ -34,17 +33,17 @@ public class RogueliteGame extends Game {
     }
 
     @Override
-    public void update() {
+    public void update() throws CloneNotSupportedException {
         if (gamePad.isQuitPressed()) {
             stop();
         }
 
         player.update();
-
+        player.move();
         for (CollidableEntity entity: MovingRepository.getInstance().getEntities()) {
             for (CollidableEntity other: CollidableRepository.getInstance().getEntities()) {
-                if (CollisionManager.collisionCheck(entity,other) && entity != other) {
-                    System.out.println("BABABOE");
+                if (CollisionManager.isGoingToCollide((MovableEntity) entity,other) && entity != other) {
+                    System.out.println("GOING TO COLLIDE");
                 }
             }
         }

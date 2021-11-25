@@ -6,18 +6,19 @@ import java.util.ArrayList;
 
 public class CollidableRepository {
     private ArrayList<CollidableEntity> entities;
-    private static CollidableRepository collidableRepository;
+    private static CollidableRepository instance;
 
     public CollidableRepository() {
         entities = new ArrayList<>();
     }
 
     public static CollidableRepository getInstance() {
-        if (collidableRepository == null) {
-            collidableRepository = new CollidableRepository();
+        if (instance == null) {
+            instance = new CollidableRepository();
         }
-        return collidableRepository;
+        return instance;
     }
+
     public ArrayList<CollidableEntity> getEntities() {
         return entities;
     }

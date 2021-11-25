@@ -39,15 +39,15 @@ public class RogueliteGame extends Game {
         }
 
         player.update();
-        player.move();
-        for (CollidableEntity entity: MovingRepository.getInstance().getEntities()) {
+        for (MovableEntity entity: MovingRepository.getInstance().getEntities()) {
             for (CollidableEntity other: CollidableRepository.getInstance().getEntities()) {
-                if (CollisionManager.isGoingToCollide((MovableEntity) entity,other) && entity != other) {
-                    System.out.println("GOING TO COLLIDE");
+                if (CollisionManager.isGoingToCollide( entity,other) && entity != other) {
+                    entity.onColliding(other);
+                    other.onCollide(entity);
                 }
             }
         }
-
+        player.move();
     }
 
     @Override

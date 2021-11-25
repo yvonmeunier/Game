@@ -53,7 +53,30 @@ public class CollisionManager {
     public static boolean isGoingToCollide(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
         MovableEntity emulatedA = (MovableEntity) a.clone();
         emulatedA.move();
-        return collisionCheck(emulatedA,b);
+        return collisionCheck(emulatedA, b);
+    }
+
+    public static Vector2D resolve(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
+        MovableEntity emulatedA = (MovableEntity) a.clone();
+        emulatedA.move();
+        if (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Rectangle) {
+            return resolveRectvsRect(emulatedA,b);
+        }
+        if ((a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Rectangle) || (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Circle)) {
+           return Vector2D.ZERO;
+        }
+        if (a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Circle) {
+            return resolveCircvsCirc(emulatedA,b);
+        }
+        return Vector2D.ZERO;
+    }
+
+    private static Vector2D resolveRectvsRect(MovableEntity a, CollidableEntity b) {
+            return Vector2D.ZERO;
+    }
+
+    private static Vector2D resolveCircvsCirc(MovableEntity a, CollidableEntity b) {
+        return Vector2D.ZERO;
     }
 
 }

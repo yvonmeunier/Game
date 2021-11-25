@@ -3,12 +3,13 @@ package com.company.ROGUELITE_GAME;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.controls.MovementController;
+import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.ControllableEntity;
 import com.company.engine.entities.MovableEntity;
-import com.company.engine.entities.StaticEntity;
+import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
-import com.company.engine.math.shapes.Rectangle;
+import com.company.engine.math.shapes.Circle;
 
 import java.awt.*;
 
@@ -16,7 +17,8 @@ public class Player extends ControllableEntity {
 
     public Player(MovementController controller, Point coord) {
         super(controller);
-        setHurtBox(new Rectangle(32f,32f));
+        //setHurtBox(new Rectangle(32f,32f));
+        setHurtBox(new Circle(16f));
         setCoordinates(coord);
         setCurrentVector(new Vector2D());
         setSpeed(2);
@@ -35,21 +37,22 @@ public class Player extends ControllableEntity {
             }
         }
     }
-
     @Override
     public void onCollide(MovableEntity other) {
 
     }
 
     @Override
-    public void onColliding(StaticEntity other) {
-
+    public void onColliding(CollidableEntity other) throws CloneNotSupportedException {
+        if (other instanceof Blockade) {
+            setCurrentVector(CollisionManager.resolve(this,other));
+        }
     }
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
-        //buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f,Color.GREEN);
+        //buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
+        buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f,Color.GREEN);
     }
 
     private void updateVector() {

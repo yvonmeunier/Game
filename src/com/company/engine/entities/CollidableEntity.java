@@ -24,4 +24,5 @@ public abstract class CollidableEntity extends StaticEntity {
     public Shape getHitBox() {
         return hitBox;
     }
+
 }

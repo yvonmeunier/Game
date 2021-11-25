@@ -1,4 +1,4 @@
-package com.company.ROGUELITE_GAME;
+package com.company.ROGUELITE_GAME.Repositories;
 
 import com.company.engine.entities.StaticEntity;
 

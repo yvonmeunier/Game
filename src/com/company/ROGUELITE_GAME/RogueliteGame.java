@@ -1,5 +1,6 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.engine.Buffer;
 import com.company.engine.Game;
 import com.company.engine.RenderingEngine;

@@ -8,13 +8,13 @@ public class CollisionManager {
 
     public static boolean collisionCheck(CollidableEntity a, CollidableEntity b) {
         if (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Rectangle) {
-            return rectVSrect(a,b);
+            return rectVSrect(a, b);
         }
         if ((a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Rectangle) || (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Circle)) {
-            return circVSrect(a,b);
+            return circVSrect(a, b);
         }
-        if (a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Circle){
-            return circVScirc(a,b);
+        if (a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Circle) {
+            return circVScirc(a, b);
         }
         return false;
     }
@@ -27,9 +27,9 @@ public class CollisionManager {
         Rectangle aRect = (Rectangle) a.getHurtBox();
         Rectangle bRect = (Rectangle) b.getHurtBox();
         Point aMin = a.getCoordinates();
-        Point aMax = Point.addPoint(a.getCoordinates(),new Point(aRect.getWidth(),aRect.getHeight()));
+        Point aMax = Point.addPoint(a.getCoordinates(), new Point(aRect.getWidth(), aRect.getHeight()));
         Point bMin = b.getCoordinates();
-        Point bMax = Point.addPoint(b.getCoordinates(),new Point(bRect.getWidth(),bRect.getHeight()));
+        Point bMax = Point.addPoint(b.getCoordinates(), new Point(bRect.getWidth(), bRect.getHeight()));
 
         if (aMax.getX() < bMin.getX() || aMin.getX() > bMax.getX()) return false;
         if (aMax.getY() < bMin.getY() || aMin.getY() > bMax.getY()) return false;
@@ -37,7 +37,7 @@ public class CollisionManager {
         return true;
     }
 
-    private static boolean circVScirc(CollidableEntity a, CollidableEntity b){
+    private static boolean circVScirc(CollidableEntity a, CollidableEntity b) {
         Circle aCirc = (Circle) a.getHurtBox();
         Circle bCirc = (Circle) b.getHurtBox();
 
@@ -46,7 +46,8 @@ public class CollisionManager {
 
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
-        return distance < aCirc.getRadius() + bCirc.getRadius();}
+        return distance < aCirc.getRadius() + bCirc.getRadius();
+    }
 
 
 }

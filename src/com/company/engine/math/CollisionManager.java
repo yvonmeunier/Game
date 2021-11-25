@@ -40,10 +40,13 @@ public class CollisionManager {
     private static boolean circVScirc(CollidableEntity a, CollidableEntity b){
         Circle aCirc = (Circle) a.getHurtBox();
         Circle bCirc = (Circle) b.getHurtBox();
-        float r = aCirc.getRadius() + bCirc.getRadius();
-        r *= r;
-        return r < ((a.getCoordinates().getX() + b.getCoordinates().getX()) * (a.getCoordinates().getX() + b.getCoordinates().getX())) + ((a.getCoordinates().getY() + b.getCoordinates().getY()) * (a.getCoordinates().getY() + b.getCoordinates().getY()));
-    }
+
+        float dx = a.getCoordinates().getX() - b.getCoordinates().getX();
+        float dy = a.getCoordinates().getY() - b.getCoordinates().getY();
+
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+
+        return distance < aCirc.getRadius() + bCirc.getRadius();}
 
 
 }

@@ -71,8 +71,10 @@ public class CollisionManager {
         return Vector2D.ZERO;
     }
 
-    private static Vector2D resolveRectvsRect(MovableEntity a, CollidableEntity b) {
-            return Vector2D.ZERO;
+    private static Vector2D resolveRectvsRect(MovableEntity emulatedA, CollidableEntity b) {
+
+        return Vector2D.ZERO;
+
     }
 
     private static Vector2D resolveCircvsCirc(MovableEntity a, CollidableEntity b) {

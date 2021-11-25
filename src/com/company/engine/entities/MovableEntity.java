@@ -33,7 +33,6 @@ public abstract class MovableEntity extends UpdatableEntity {
     public abstract void onColliding(StaticEntity other);
 
     public void move() {
-
         setCoordinates(new Point(getCoordinates().getX() + getCurrentVector().x, getCoordinates().getY() + getCurrentVector().y));
     }
 

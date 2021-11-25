@@ -42,7 +42,8 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
+        //buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
+        buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f,Color.GREEN);
     }
 
     private void updateVector() {

@@ -1,7 +1,5 @@
 package com.company.engine.math.shapes;
 
-import com.company.engine.math.Point;
-
 public class Circle extends Shape {
 
     private float radius;
@@ -10,23 +8,27 @@ public class Circle extends Shape {
         this.radius = radius;
     }
 
+    public float getRadius() {
+        return radius;
+    }
 
-    private float getDiameter() {
+    public float getDiameter() {
         return radius * 2;
     }
 
     @Override
     float getWidth() {
-        return 0;
+        return 2 * radius;
     }
 
     @Override
     float getHeight() {
-        return 0;
+        return 2 * radius;
     }
 
     @Override
     Shape getShape() {
-        return null;
+        return this;
     }
+
 }

@@ -76,7 +76,6 @@ public class Screen {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setState(JFrame.NORMAL);
         frame.setUndecorated(true); //Delete window border
-
     }
 
     protected void setSize(int width, int height) {

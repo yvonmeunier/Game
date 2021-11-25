@@ -8,12 +8,16 @@ import com.company.engine.math.Point;
 public class RogueliteGame extends Game {
     GamePad gamePad;
     Player player;
+    CollidableRepository collidables;
 
     @Override
     public void init() {
+
         gamePad = new GamePad();
-        player = new Player(gamePad,new Point(32,32));
+        player = new Player(gamePad,new Point(0,0));
+        collidables = CollidableRepository.getInstance();
         RenderingEngine.getInstance().getScreen().showCrossHair();
+        //RenderingEngine.getInstance().getScreen().fullscreen();
     }
 
     @Override

@@ -17,6 +17,10 @@ public class Point {
         return (float) Math.sqrt(((end.y - start.y) * (end.y - start.y)) + ((end.x - start.x) * (end.x - start.x)));
     }
 
+    public static Point addPoint(Point a, Point b){
+        return new Point(a.x + b.x,a.y + b.y);
+    }
+
     public float getX() {
         return x;
     }

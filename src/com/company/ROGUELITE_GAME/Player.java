@@ -1,5 +1,6 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.controls.MovementController;
 import com.company.engine.entities.ControllableEntity;
@@ -27,6 +28,13 @@ public class Player extends ControllableEntity {
     public void update() {
         super.update();
         updateVector();
+        if (getCurrentVector() != new Vector2D()) {
+            MovingRepository.getInstance().getEntities().add(this);
+        }else {
+            if (MovingRepository.getInstance().getEntities().contains(this)) {
+                MovingRepository.getInstance().getEntities().remove(this);
+            }
+        }
         move();
     }
 

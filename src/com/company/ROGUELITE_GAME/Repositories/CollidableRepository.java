@@ -1,11 +1,11 @@
 package com.company.ROGUELITE_GAME.Repositories;
 
-import com.company.engine.entities.StaticEntity;
+import com.company.engine.entities.CollidableEntity;
 
 import java.util.ArrayList;
 
 public class CollidableRepository {
-    ArrayList<StaticEntity> entities;
+    private ArrayList<CollidableEntity> entities;
     private static CollidableRepository collidableRepository;
 
     public CollidableRepository() {
@@ -17,5 +17,8 @@ public class CollidableRepository {
             collidableRepository = new CollidableRepository();
         }
         return collidableRepository;
+    }
+    public ArrayList<CollidableEntity> getEntities() {
+        return entities;
     }
 }

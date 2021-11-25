@@ -1,5 +1,5 @@
 package com.company.ROGUELITE_GAME.Repositories;
 
-public class MovingRepository {
+public class MovingRepository extends MovableRepository {
 
 }

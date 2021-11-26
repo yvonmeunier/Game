@@ -10,7 +10,6 @@ import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Circle;
-import com.company.engine.math.shapes.Rectangle;
 
 import java.awt.*;
 
@@ -19,7 +18,6 @@ public class Player extends ControllableEntity {
 
     public Player(MovementController controller, Point coord) {
         super(controller);
-        //setHurtBox(new Rectangle(32f,32f));
         setHurtBox(new Circle(16f));
         setCoordinates(coord);
         setCurrentVector(new Vector2D());
@@ -53,7 +51,6 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        //buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
         buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f, Color.GREEN);
     }
 

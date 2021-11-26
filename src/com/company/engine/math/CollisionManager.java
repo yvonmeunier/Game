@@ -21,7 +21,54 @@ public class CollisionManager {
     }
 
     private static boolean circVSrect(CollidableEntity a, CollidableEntity b) {
-        return false;
+
+        Point circDistance;
+
+        if (a.getHurtBox() instanceof Rectangle) {
+            Rectangle aRect = (Rectangle) a.getHurtBox();
+            Circle bCirc = (Circle) b.getHurtBox();
+            circDistance = new Point(Math.abs(b.getCoordinates().getX() - a.getCoordinates().getX()),Math.abs(b.getCoordinates().getY() - a.getCoordinates().getY()));
+
+            if (circDistance.getX() > (aRect.getWidth()/2 + bCirc.getRadius())){
+                return false;
+            }
+            if (circDistance.getY() > (aRect.getHeight()/2 + bCirc.getRadius())){
+                return false;
+            }
+
+            if (circDistance.getX() <= (aRect.getWidth()/2)) {
+                return true;
+            }
+
+            if (circDistance.getY() <= (aRect.getHeight()/2)) {
+                return true;
+            }
+
+            float cornerDistance = ((circDistance.getX() - aRect.getWidth()/2) * (circDistance.getX() - aRect.getWidth()/2)) + ((circDistance.getY() - aRect.getHeight()/2) * (circDistance.getY() - aRect.getHeight()/2));
+            return cornerDistance <= (bCirc.getRadius() * bCirc.getRadius());
+        } else {
+            Circle aCirc = (Circle) a.getHurtBox();
+            Rectangle bRect = (Rectangle) b.getHurtBox();
+            circDistance = new Point(Math.abs(a.getCoordinates().getX() - b.getCoordinates().getX()),Math.abs(a.getCoordinates().getY() - b.getCoordinates().getY()));
+
+            if (circDistance.getX() > (bRect.getWidth()/2 + aCirc.getRadius())){
+                return false;
+            }
+            if (circDistance.getY() > (bRect.getHeight()/2 + aCirc.getRadius())){
+                return false;
+            }
+
+            if (circDistance.getX() <= (bRect.getWidth()/2)) {
+                return true;
+            }
+
+            if (circDistance.getY() <= (bRect.getHeight()/2)) {
+                return true;
+            }
+
+            float cornerDistance = ((circDistance.getX() - bRect.getWidth()/2) * (circDistance.getX() - bRect.getWidth()/2)) + ((circDistance.getY() - bRect.getHeight()/2) * (circDistance.getY() - bRect.getHeight()/2));
+            return cornerDistance <= (aCirc.getRadius() * aCirc.getRadius());
+        }
     }
 
     private static boolean rectVSrect(CollidableEntity a, CollidableEntity b) {

@@ -14,8 +14,8 @@ public class Blockade extends CollidableEntity {
 
     public Blockade(Point coord) {
         setCoordinates(coord);
-        //setHurtBox(new Rectangle(52,52));
-        setHurtBox(new Circle(16f));
+        setHurtBox(new Rectangle(32,32));
+        //setHurtBox(new Circle(16f));
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Blockade extends CollidableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        //buffer.drawRectangle(getCoordinates().getX(), getCoordinates().getY(),52,52, Color.BLUE);
-        buffer.drawCircle(getCoordinates().getX(), getCoordinates().getY(),16f, Color.BLUE);
+        buffer.drawRectangle(getCoordinates().getX(), getCoordinates().getY(),32,32, Color.BLUE);
+        //buffer.drawCircle(getCoordinates().getX(), getCoordinates().getY(),16f, Color.BLUE);
     }
 }

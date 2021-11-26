@@ -44,6 +44,7 @@ public class RogueliteGame extends Game {
                 if (CollisionManager.isGoingToCollide( entity,other) && entity != other) {
                     entity.onColliding(other);
                     other.onCollide(entity);
+                    System.out.println("BABABOE");
                 }
             }
         }

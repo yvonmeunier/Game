@@ -50,6 +50,13 @@ public class Player extends ControllableEntity {
     }
 
     @Override
+    public void onPhasing(CollidableEntity other) throws CloneNotSupportedException {
+        if (other instanceof Blockade) {
+            setCurrentVector(CollisionManager.resolvePhasing(this,other));
+        }
+    }
+
+    @Override
     public void draw(Buffer buffer) {
         buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f, Color.GREEN);
     }

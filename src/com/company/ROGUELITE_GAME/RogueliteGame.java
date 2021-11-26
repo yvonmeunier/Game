@@ -19,7 +19,7 @@ public class RogueliteGame extends Game {
     public void init() {
 
         gamePad = new GamePad();
-        player = new Player(gamePad,new Point(0,0));
+        player = new Player(gamePad,new Point(0,100));
         blockade = new Blockade(new Point(100,100));
         CollidableRepository.getInstance().getEntities().add(player);
         CollidableRepository.getInstance().getEntities().add(blockade);
@@ -44,6 +44,9 @@ public class RogueliteGame extends Game {
                 if (CollisionManager.isGoingToCollide( entity,other) && entity != other) {
                     entity.onColliding(other);
                     other.onCollide(entity);
+                }
+                if (CollisionManager.hasPhasedTrough(entity,other) && entity != other) {
+
                 }
             }
         }

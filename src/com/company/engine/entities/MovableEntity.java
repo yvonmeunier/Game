@@ -36,6 +36,8 @@ public abstract class MovableEntity extends UpdatableEntity implements Cloneable
 
     public abstract void onColliding(CollidableEntity other) throws CloneNotSupportedException;
 
+    public abstract void onPhasing(CollidableEntity other) throws CloneNotSupportedException;
+
     public void move() {
         setCoordinates(new Point(getCoordinates().getX() + getCurrentVector().x, getCoordinates().getY() + getCurrentVector().y));
     }

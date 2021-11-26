@@ -2,10 +2,15 @@ package com.company.engine.entities;
 
 import com.company.engine.math.shapes.Shape;
 
-public abstract class CollidableEntity extends StaticEntity {
+public abstract class CollidableEntity extends StaticEntity implements Cloneable{
 
     private Shape hurtBox;
     private Shape hitBox;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public abstract void onCollide(MovableEntity other);
 

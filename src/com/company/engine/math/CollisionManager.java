@@ -20,6 +20,53 @@ public class CollisionManager {
         return false;
     }
 
+    public static boolean hasPhasedTrough(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
+
+        MovableEntity emulatedA = (MovableEntity) a.clone();
+        CollidableEntity emulatedB = (CollidableEntity) b.clone();
+        if (emulatedA.getHurtBox() instanceof Circle) {
+            emulatedA.setHurtBox(new Rectangle( ((Circle) emulatedA.getHurtBox()).getRadius() * 2,((Circle) emulatedA.getHurtBox()).getRadius() * 2));
+        }
+        if (emulatedB.getHurtBox() instanceof Circle) {
+            emulatedB.setHurtBox(new Rectangle( ((Circle) emulatedB.getHurtBox()).getRadius() * 2,((Circle) emulatedB.getHurtBox()).getRadius() * 2));
+        }
+
+        Point start = emulatedA.getCoordinates();
+        emulatedA.move();
+        Point end = emulatedA.getCoordinates();
+
+        float distanceX = end.getX() - start.getX() + ((Rectangle)emulatedA.getHurtBox()).getWidth();
+        float distanceY = end.getY() - start.getY() + ((Rectangle)emulatedA.getHurtBox()).getHeight();
+
+        return false;
+
+    }
+
+    public static Vector2D resolve(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
+        MovableEntity emulatedA = (MovableEntity) a.clone();
+        emulatedA.move();
+        if (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Rectangle) {
+            return resolveRectVSRect(emulatedA, b);
+        }
+        if ((a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Rectangle) || (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Circle)) {
+            return Vector2D.ZERO;
+        }
+        if (a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Circle) {
+            return resolveCircVSCirc(emulatedA, b);
+        }
+        return Vector2D.ZERO;
+    }
+
+    public static Vector2D resolvePhasing(MovableEntity a, CollidableEntity b) {
+        return Vector2D.ZERO;
+    }
+
+    public static boolean isGoingToCollide(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
+        MovableEntity emulatedA = (MovableEntity) a.clone();
+        emulatedA.move();
+        return collisionCheck(emulatedA, b);
+    }
+
     private static boolean circVSrect(CollidableEntity a, CollidableEntity b) {
 
         Point circDistance;
@@ -27,46 +74,46 @@ public class CollisionManager {
         if (a.getHurtBox() instanceof Rectangle) {
             Rectangle aRect = (Rectangle) a.getHurtBox();
             Circle bCirc = (Circle) b.getHurtBox();
-            circDistance = new Point(Math.abs(b.getCoordinates().getX() - a.getCoordinates().getX()),Math.abs(b.getCoordinates().getY() - a.getCoordinates().getY()));
+            circDistance = new Point(Math.abs(b.getCoordinates().getX() - a.getCoordinates().getX()), Math.abs(b.getCoordinates().getY() - a.getCoordinates().getY()));
 
-            if (circDistance.getX() > (aRect.getWidth()/2 + bCirc.getRadius())){
+            if (circDistance.getX() > (aRect.getWidth() / 2 + bCirc.getRadius())) {
                 return false;
             }
-            if (circDistance.getY() > (aRect.getHeight()/2 + bCirc.getRadius())){
+            if (circDistance.getY() > (aRect.getHeight() / 2 + bCirc.getRadius())) {
                 return false;
             }
 
-            if (circDistance.getX() <= (aRect.getWidth()/2)) {
+            if (circDistance.getX() <= (aRect.getWidth() / 2)) {
                 return true;
             }
 
-            if (circDistance.getY() <= (aRect.getHeight()/2)) {
+            if (circDistance.getY() <= (aRect.getHeight() / 2)) {
                 return true;
             }
 
-            float cornerDistance = ((circDistance.getX() - aRect.getWidth()/2) * (circDistance.getX() - aRect.getWidth()/2)) + ((circDistance.getY() - aRect.getHeight()/2) * (circDistance.getY() - aRect.getHeight()/2));
+            float cornerDistance = ((circDistance.getX() - aRect.getWidth() / 2) * (circDistance.getX() - aRect.getWidth() / 2)) + ((circDistance.getY() - aRect.getHeight() / 2) * (circDistance.getY() - aRect.getHeight() / 2));
             return cornerDistance <= (bCirc.getRadius() * bCirc.getRadius());
         } else {
             Circle aCirc = (Circle) a.getHurtBox();
             Rectangle bRect = (Rectangle) b.getHurtBox();
-            circDistance = new Point(Math.abs(a.getCoordinates().getX() - b.getCoordinates().getX()),Math.abs(a.getCoordinates().getY() - b.getCoordinates().getY()));
+            circDistance = new Point(Math.abs(a.getCoordinates().getX() - b.getCoordinates().getX()), Math.abs(a.getCoordinates().getY() - b.getCoordinates().getY()));
 
-            if (circDistance.getX() > (bRect.getWidth()/2 + aCirc.getRadius())){
+            if (circDistance.getX() > (bRect.getWidth() / 2 + aCirc.getRadius())) {
                 return false;
             }
-            if (circDistance.getY() > (bRect.getHeight()/2 + aCirc.getRadius())){
+            if (circDistance.getY() > (bRect.getHeight() / 2 + aCirc.getRadius())) {
                 return false;
             }
 
-            if (circDistance.getX() <= (bRect.getWidth()/2)) {
+            if (circDistance.getX() <= (bRect.getWidth() / 2)) {
                 return true;
             }
 
-            if (circDistance.getY() <= (bRect.getHeight()/2)) {
+            if (circDistance.getY() <= (bRect.getHeight() / 2)) {
                 return true;
             }
 
-            float cornerDistance = ((circDistance.getX() - bRect.getWidth()/2) * (circDistance.getX() - bRect.getWidth()/2)) + ((circDistance.getY() - bRect.getHeight()/2) * (circDistance.getY() - bRect.getHeight()/2));
+            float cornerDistance = ((circDistance.getX() - bRect.getWidth() / 2) * (circDistance.getX() - bRect.getWidth() / 2)) + ((circDistance.getY() - bRect.getHeight() / 2) * (circDistance.getY() - bRect.getHeight() / 2));
             return cornerDistance <= (aCirc.getRadius() * aCirc.getRadius());
         }
     }
@@ -97,27 +144,6 @@ public class CollisionManager {
         return distance < aCirc.getRadius() + bCirc.getRadius();
     }
 
-    public static boolean isGoingToCollide(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
-        MovableEntity emulatedA = (MovableEntity) a.clone();
-        emulatedA.move();
-        return collisionCheck(emulatedA, b);
-    }
-
-    public static Vector2D resolve(MovableEntity a, CollidableEntity b) throws CloneNotSupportedException {
-        MovableEntity emulatedA = (MovableEntity) a.clone();
-        emulatedA.move();
-        if (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Rectangle) {
-            return resolveRectVSRect(emulatedA, b);
-        }
-        if ((a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Rectangle) || (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Circle)) {
-            return Vector2D.ZERO;
-        }
-        if (a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Circle) {
-            return resolveCircVSCirc(emulatedA, b);
-        }
-        return Vector2D.ZERO;
-    }
-
     private static Vector2D resolveRectVSRect(MovableEntity emulatedA, CollidableEntity b) {
         Rectangle aRect = (Rectangle) emulatedA.getHurtBox();
         Rectangle bRect = (Rectangle) b.getHurtBox();
@@ -141,7 +167,7 @@ public class CollisionManager {
         if (aMin.getY() < bMax.getY()) {
             dy += bMax.getY() - aMin.getY();
         }
-        return new Vector2D(dx,dy);
+        return new Vector2D(dx, dy);
     }
 
     private static Vector2D resolveCircVSCirc(MovableEntity a, CollidableEntity b) {
@@ -153,7 +179,7 @@ public class CollisionManager {
 
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
-        return new Vector2D(aCirc.getRadius() + bCirc.getRadius() - dx,aCirc.getRadius() + bCirc.getRadius() - dy);
+        return new Vector2D(aCirc.getRadius() + bCirc.getRadius() - dx, aCirc.getRadius() + bCirc.getRadius() - dy);
     }
 
 }

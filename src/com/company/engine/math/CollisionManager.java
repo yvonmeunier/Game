@@ -31,12 +31,7 @@ public class CollisionManager {
             emulatedB.setHurtBox(new Rectangle( ((Circle) emulatedB.getHurtBox()).getRadius() * 2,((Circle) emulatedB.getHurtBox()).getRadius() * 2));
         }
 
-        Point start = emulatedA.getCoordinates();
-        emulatedA.move();
-        Point end = emulatedA.getCoordinates();
 
-        float distanceX = end.getX() - start.getX() + ((Rectangle)emulatedA.getHurtBox()).getWidth();
-        float distanceY = end.getY() - start.getY() + ((Rectangle)emulatedA.getHurtBox()).getHeight();
 
         return false;
 

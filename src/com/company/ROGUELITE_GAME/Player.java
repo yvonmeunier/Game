@@ -10,8 +10,10 @@ import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Circle;
+import com.company.engine.math.shapes.Rectangle;
 
 import java.awt.*;
+
 
 public class Player extends ControllableEntity {
 
@@ -45,14 +47,14 @@ public class Player extends ControllableEntity {
     @Override
     public void onColliding(CollidableEntity other) throws CloneNotSupportedException {
         if (other instanceof Blockade) {
-            setCurrentVector(CollisionManager.resolve(this,other));
+            setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),CollisionManager.resolve(this,other),0.0001f)));
         }
     }
 
     @Override
     public void draw(Buffer buffer) {
         //buffer.drawRectangle(this.getCoordinates().getX(),this.getCoordinates().getY(),32f,32f, Color.GREEN);
-        buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f,Color.GREEN);
+        buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f, Color.GREEN);
     }
 
     private void updateVector() {

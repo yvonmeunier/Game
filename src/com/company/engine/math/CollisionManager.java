@@ -60,25 +60,53 @@ public class CollisionManager {
         MovableEntity emulatedA = (MovableEntity) a.clone();
         emulatedA.move();
         if (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Rectangle) {
-            return resolveRectvsRect(emulatedA,b);
+            return resolveRectVSRect(emulatedA, b);
         }
         if ((a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Rectangle) || (a.getHurtBox() instanceof Rectangle && b.getHurtBox() instanceof Circle)) {
-           return Vector2D.ZERO;
+            return Vector2D.ZERO;
         }
         if (a.getHurtBox() instanceof Circle && b.getHurtBox() instanceof Circle) {
-            return resolveCircvsCirc(emulatedA,b);
+            return resolveCircVSCirc(emulatedA, b);
         }
         return Vector2D.ZERO;
     }
 
-    private static Vector2D resolveRectvsRect(MovableEntity emulatedA, CollidableEntity b) {
+    private static Vector2D resolveRectVSRect(MovableEntity emulatedA, CollidableEntity b) {
+        Rectangle aRect = (Rectangle) emulatedA.getHurtBox();
+        Rectangle bRect = (Rectangle) b.getHurtBox();
+        Point aMax = Point.addPoint(emulatedA.getCoordinates(), new Point(aRect.getWidth(), aRect.getHeight()));
+        Point aMin = emulatedA.getCoordinates();
+        Point bMax = Point.addPoint(b.getCoordinates(), new Point(bRect.getWidth(), bRect.getHeight()));
+        Point bMin = b.getCoordinates();
 
-        return Vector2D.ZERO;
+        float dx = 0;
+        float dy = 0;
 
+        if (aMax.getX() > bMin.getX()) {
+            dx -= aMax.getX() - bMin.getX();
+        }
+        if (aMin.getX() < bMax.getX()) {
+            dx += bMax.getX() - aMin.getX();
+        }
+        if (aMax.getY() > bMin.getY()) {
+            dy -= aMax.getY() - bMin.getY();
+        }
+        if (aMin.getY() < bMax.getY()) {
+            dy += bMax.getY() - aMin.getY();
+        }
+        return new Vector2D(dx,dy);
     }
 
-    private static Vector2D resolveCircvsCirc(MovableEntity a, CollidableEntity b) {
-        return Vector2D.ZERO;
+    private static Vector2D resolveCircVSCirc(MovableEntity a, CollidableEntity b) {
+        Circle aCirc = (Circle) a.getHurtBox();
+        Circle bCirc = (Circle) b.getHurtBox();
+
+        float dx = a.getCoordinates().getX() - b.getCoordinates().getX();
+        float dy = a.getCoordinates().getY() - b.getCoordinates().getY();
+
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+
+        return new Vector2D(aCirc.getRadius() + bCirc.getRadius() - dx,aCirc.getRadius() + bCirc.getRadius() - dy);
     }
 
 }

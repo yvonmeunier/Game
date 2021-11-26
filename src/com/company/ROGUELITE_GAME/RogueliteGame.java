@@ -52,7 +52,8 @@ public class RogueliteGame extends Game {
 
     @Override
     public void draw(Buffer buffer) {
-        player.draw(buffer);
+
         blockade.draw(buffer);
+        player.draw(buffer);
     }
 }

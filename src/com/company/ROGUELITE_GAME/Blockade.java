@@ -5,8 +5,10 @@ import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.Point;
 import com.company.engine.math.shapes.Circle;
+import com.company.engine.math.shapes.Rectangle;
 
 import java.awt.*;
+
 
 public class Blockade extends CollidableEntity {
 

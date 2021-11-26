@@ -46,7 +46,7 @@ public class RogueliteGame extends Game {
                     other.onCollide(entity);
                 }
                 if (CollisionManager.hasPhasedTrough(entity,other) && entity != other) {
-
+                    entity.onPhasing(other);
                 }
             }
         }

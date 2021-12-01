@@ -95,7 +95,7 @@ public class RenderingEngine {
     private void initializeScreen() {
         screen = new Screen();
         screen.setTitle("TEST");
-        screen.setSize(1280,720);
+        screen.setSize(1280,720);//1920 * 1080
     }
 
     public Screen getScreen() {

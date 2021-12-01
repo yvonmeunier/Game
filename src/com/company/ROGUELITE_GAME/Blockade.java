@@ -23,6 +23,6 @@ public class Blockade extends CollidableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawRectangle(getCoordinates().getX(), getCoordinates().getY(),32,32, Color.BLUE);
+        buffer.drawRectangle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(),32,32, Color.BLUE);
     }
 }

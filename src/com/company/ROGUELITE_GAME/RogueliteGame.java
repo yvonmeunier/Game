@@ -5,6 +5,7 @@ import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.Game;
+import com.company.engine.GameTime;
 import com.company.engine.RenderingEngine;
 import com.company.engine.controls.MouseController;
 import com.company.engine.entities.CollidableEntity;
@@ -12,6 +13,7 @@ import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 
 public class RogueliteGame extends Game {
@@ -19,13 +21,16 @@ public class RogueliteGame extends Game {
     Player player;
     Blockade blockade;
     MouseController mouse;
+    Camera camera;
+
     @Override
     public void init() {
 
         gamePad = new GamePad();
         mouse = new MouseController();
-        player = new Player(gamePad,mouse,new Point(0,100));
+        player = new Player(gamePad,mouse,new Point(640,360));
         blockade = new Blockade(new Point(100,100));
+        camera = Camera.getInstance();
 
         CollidableRepository.getInstance().getEntities().add(player);
         CollidableRepository.getInstance().getEntities().add(blockade);
@@ -57,12 +62,11 @@ public class RogueliteGame extends Game {
             }
         }
         player.move();
+        camera.update(player);
     }
 
     @Override
     public void draw(Buffer buffer) {
-
-        blockade.draw(buffer);
-        player.draw(buffer);
+        camera.draw(buffer);
     }
 }

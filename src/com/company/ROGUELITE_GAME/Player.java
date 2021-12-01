@@ -67,7 +67,7 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawCircle(this.getCoordinates().getX(),this.getCoordinates().getY(),16f, Color.GREEN);
+        buffer.drawCircle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(),getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(),16f, Color.GREEN);
     }
 
     private void updateVector() {

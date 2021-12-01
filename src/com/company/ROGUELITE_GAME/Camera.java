@@ -7,7 +7,7 @@ import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.shapes.Rectangle;
-
+// TODO: offset entity draw by the width and height of player collision
 public class Camera extends MovableEntity {
     private MovableEntity followedEntity;
     private static Camera instance;

@@ -1,18 +1,17 @@
 package com.company.ROGUELITE_GAME.WorldGen;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 public class Room {
 
     // 31 width 19 height
-    private final int width = 31;
-    private final int height = 19;
-    private boolean hasUpNeighbour;
-    private boolean hasDownNeighbour;
-    private boolean hasLeftNeighbour;
-    private boolean hasRightNeighbour;
+    public BufferedImage roomImage;
+    public Layout layout;
 
-    private Layout layout;
-
-    public Room() {
+    public Room() throws IOException {
+        roomImage = ImageIO.read(this.getClass().getResourceAsStream("Rooms/Default/Default.png"));
         layout = new Layout(this);
     }
 

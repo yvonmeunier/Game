@@ -33,10 +33,6 @@ public abstract class Game {
         playing = false;
     }
 
-    public void addKeyListener(KeyListener listener) {
-        renderingEngine.addKeyListener(listener);
-    }
-
     //run
     private void maintain() throws CloneNotSupportedException {
 

@@ -1,8 +1,11 @@
 package com.company.engine;
 
+import com.company.engine.controls.MouseController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
 public class RenderingEngine {
@@ -82,6 +85,11 @@ public class RenderingEngine {
 
     public void addKeyListener(KeyListener listener) {
         panel.addKeyListener(listener);
+    }
+
+    public void addMouseListener(MouseController listener) {
+        panel.addMouseListener(listener);
+        panel.addMouseMotionListener(listener);
     }
 
     private void initializeScreen() {

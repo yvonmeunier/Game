@@ -2,6 +2,7 @@ package com.company.ROGUELITE_GAME;
 
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
+import com.company.engine.controls.MouseController;
 import com.company.engine.controls.MovementController;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.ControllableEntity;
@@ -13,11 +14,13 @@ import com.company.engine.math.shapes.Circle;
 
 import java.awt.*;
 
-
 public class Player extends ControllableEntity {
 
-    public Player(MovementController controller, Point coord) {
-        super(controller);
+    MouseController mouse;
+
+    public Player(MovementController keyboard, MouseController mouse, Point coord) {
+        super(keyboard);
+        this.mouse = mouse;
         setHurtBox(new Circle(16f));
         setCoordinates(coord);
         setCurrentVector(new Vector2D());
@@ -29,6 +32,7 @@ public class Player extends ControllableEntity {
     public void update() {
         super.update();
         updateVector();
+        updateMouse();
         if (getCurrentVector() != new Vector2D()) {
             MovingRepository.getInstance().getEntities().add(this);
         }else {
@@ -37,6 +41,11 @@ public class Player extends ControllableEntity {
             }
         }
     }
+
+    private void updateMouse() {
+        mouse.poll();
+    }
+
     @Override
     public void onCollide(MovableEntity other) {
 

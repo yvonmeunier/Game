@@ -2,7 +2,7 @@ package com.company.engine.controls;
 
 import java.awt.event.KeyEvent;
 
-public class MovementController extends Controller {
+public abstract class MovementController extends Controller {
 
     private int upKey = KeyEvent.VK_W;
     private int downKey = KeyEvent.VK_S;

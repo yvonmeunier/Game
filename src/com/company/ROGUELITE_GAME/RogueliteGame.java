@@ -6,21 +6,27 @@ import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.Game;
 import com.company.engine.RenderingEngine;
+import com.company.engine.controls.MouseController;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 
+import java.awt.event.MouseAdapter;
+
 public class RogueliteGame extends Game {
     GamePad gamePad;
     Player player;
     Blockade blockade;
+    MouseController mouse;
     @Override
     public void init() {
 
         gamePad = new GamePad();
-        player = new Player(gamePad,new Point(0,100));
+        mouse = new MouseController();
+        player = new Player(gamePad,mouse,new Point(0,100));
         blockade = new Blockade(new Point(100,100));
+
         CollidableRepository.getInstance().getEntities().add(player);
         CollidableRepository.getInstance().getEntities().add(blockade);
         MovableRepository.getInstance().getEntities().add(player);

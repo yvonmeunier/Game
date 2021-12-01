@@ -1,5 +1,7 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
+import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.controls.MouseController;
@@ -26,6 +28,8 @@ public class Player extends ControllableEntity {
         setCurrentVector(new Vector2D());
         setSpeed(2);
         setAccelerationRate(0.3f);
+        CollidableRepository.getInstance().getEntities().add(this);
+        MovableRepository.getInstance().getEntities().add(this);
     }
 
     @Override

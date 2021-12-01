@@ -1,5 +1,6 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.engine.Buffer;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
@@ -14,6 +15,7 @@ public class Blockade extends CollidableEntity {
     public Blockade(Point coord) {
         setCoordinates(coord);
         setHurtBox(new Rectangle(32,32));
+        CollidableRepository.getInstance().getEntities().add(this);
     }
 
     @Override

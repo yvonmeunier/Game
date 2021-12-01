@@ -22,6 +22,7 @@ public class RogueliteGame extends Game {
     Blockade blockade;
     MouseController mouse;
     Camera camera;
+    HUD hud;
 
     @Override
     public void init() {
@@ -31,10 +32,7 @@ public class RogueliteGame extends Game {
         player = new Player(gamePad,mouse,new Point(640,360));
         blockade = new Blockade(new Point(100,100));
         camera = Camera.getInstance();
-
-        CollidableRepository.getInstance().getEntities().add(player);
-        CollidableRepository.getInstance().getEntities().add(blockade);
-        MovableRepository.getInstance().getEntities().add(player);
+        hud = HUD.getInstance();
         RenderingEngine.getInstance().getScreen().showCrossHair();
     }
 
@@ -62,11 +60,13 @@ public class RogueliteGame extends Game {
             }
         }
         player.move();
+        hud.update(player);
         camera.update(player);
     }
 
     @Override
     public void draw(Buffer buffer) {
         camera.draw(buffer);
+        hud.draw(buffer);
     }
 }

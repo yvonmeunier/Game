@@ -22,26 +22,20 @@ public class RogueliteGame extends Game {
 
     private GamePad gamePad;
     private Player player;
+    private Fly fly;
     private Blockade blockade;
     private MouseController mouse;
     private Camera camera;
     private HUD hud;
     private Floor currentFloor;
     private Room currentRoom;
-    private Door door;
-
     @Override
     public void init() {
 
         gamePad = new GamePad();
         mouse = new MouseController();
         player = new Player(gamePad,mouse,new Point(640,360));
-        //blockade = new Blockade(new Point(100,100));
-        try {
-            door = new Door(new Point(600,300), Door.DOWN);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        fly = new Fly(new Point(640,360));
         camera = Camera.getInstance();
         hud = HUD.getInstance();
         level = 1;
@@ -62,15 +56,8 @@ public class RogueliteGame extends Game {
         if (gamePad.isQuitPressed()) {
             stop();
         }
-        if (gamePad.isActiveItemPressed()) {
-            if (door.isOpen()) {
-                door.close();
-            } else {
-                door.open();
-            }
-        }
-        door.update();
         player.update();
+        fly.update(player);
         for (MovableEntity entity: MovingRepository.getInstance().getEntities()) {
             for (CollidableEntity other: CollidableRepository.getInstance().getEntities()) {
                 if (CollisionManager.isGoingToCollide( entity,other) && entity != other) {
@@ -82,6 +69,7 @@ public class RogueliteGame extends Game {
                 }
             }
         }
+        fly.move();
         player.move();
         hud.update(player);
         camera.update(player);

@@ -13,7 +13,7 @@ public class Room {
 
     public Room(boolean[] doors) throws IOException {
         roomImage = ImageIO.read(Objects.requireNonNull(this.getClass().getResourceAsStream("/Rooms/Default/Default.png")));
-        layout = LayoutRepository.getInstance().getRandomLayout(doors);
+        //layout = LayoutRepository.getInstance().getRandomLayout(doors);
     }
 
     public BufferedImage getRoomImage() {

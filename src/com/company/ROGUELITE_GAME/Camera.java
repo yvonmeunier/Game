@@ -46,7 +46,6 @@ public class Camera extends MovableEntity {
         if (camY > 269) {
             camY = 269 - followedEntity.getSpeed();
         }
-        System.out.println(camX + " " + camY);
         setCoordinates(new Point(camX,camY));
     }
 

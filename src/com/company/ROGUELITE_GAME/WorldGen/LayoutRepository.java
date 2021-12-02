@@ -22,9 +22,7 @@ public class LayoutRepository {
     }
 
     private void loadLayouts() {
-
-
-
+        layouts.add(new Layout(new ArrayList<>()));
     }
 
     public Layout getRandomLayout(boolean[] doors) {

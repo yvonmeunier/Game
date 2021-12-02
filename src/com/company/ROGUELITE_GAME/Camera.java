@@ -32,7 +32,22 @@ public class Camera extends MovableEntity {
 
     public void update(MovableEntity target) {
         followedEntity = target;
-        setCoordinates(new Point(followedEntity.getCoordinates().getX() - 640,followedEntity.getCoordinates().getY() - 360));
+        float camX = followedEntity.getCoordinates().getX() - 640;
+        float camY = followedEntity.getCoordinates().getY() - 360;
+        if (camX < 0) {
+            camX = 0;
+        }
+        if (camY < 0) {
+            camY = 0;
+        }
+        if (camX > 330) {
+            camX = 330 - followedEntity.getSpeed();
+        }
+        if (camY > 269) {
+            camY = 269 - followedEntity.getSpeed();
+        }
+        System.out.println(camX + " " + camY);
+        setCoordinates(new Point(camX,camY));
     }
 
     @Override

@@ -45,7 +45,28 @@ public class FloorGenerator {
 
         for (int i = 0; i < rooms.length; i++) {
             if (rooms[i] == 1) {
-                generatedFloor.placeRoomAtId(i);
+                boolean hasUpDoor = false;
+                boolean hasDownDoor = false;
+                boolean hasLeftDoor = false;
+                boolean hasRightDoor = false;
+                Integer[] neighbours = getNeighbours(i);
+
+                for (Integer neighbour: neighbours) {
+                    if (neighbour == i - width) {
+                        hasUpDoor = true;
+                    }
+                    if (neighbour == i + width) {
+                        hasDownDoor = true;
+                    }
+                    if (neighbour == i + 1) {
+                        hasRightDoor = true;
+                    }
+                    if (neighbour == i - 1) {
+                        hasLeftDoor = true;
+                    }
+                }
+
+                generatedFloor.placeRoomAtId(i, new boolean[] {hasUpDoor,hasDownDoor,hasLeftDoor,hasRightDoor});
             }
         }
 

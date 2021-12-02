@@ -1,4 +1,4 @@
-package com.company.ROGUELITE_GAME.Doors;
+package com.company.ROGUELITE_GAME;
 
 import com.company.ROGUELITE_GAME.Camera;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
@@ -32,6 +32,10 @@ public class Door extends UpdatableEntity {
     public static final int LEFT = 3;
 
     private int direction;
+
+    public int getDirection() {
+        return direction;
+    }
 
     public Door(Point coord, int direction) throws Exception {
         if (direction < UP || direction > LEFT) {

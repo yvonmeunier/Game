@@ -13,9 +13,9 @@ public class Floor {
         return floor[id];
     }
 
-    public void placeRoomAtId(int id) {
+    public void placeRoomAtId(int id, boolean[] doors) {
         try {
-            floor[id] = new Room();
+            floor[id] = new Room(doors);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package com.company.ROGUELITE_GAME.WorldGen;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Room {
 
@@ -10,10 +11,9 @@ public class Room {
     public BufferedImage roomImage;
     public Layout layout;
 
-
-    public Room() throws IOException {
-        roomImage = ImageIO.read(this.getClass().getResourceAsStream("/Rooms/Default/Default.png"));
-
+    public Room(boolean[] doors) throws IOException {
+        roomImage = ImageIO.read(Objects.requireNonNull(this.getClass().getResourceAsStream("/Rooms/Default/Default.png")));
+        layout = LayoutRepository.getInstance().getRandomLayout(doors);
     }
 
     public BufferedImage getRoomImage() {

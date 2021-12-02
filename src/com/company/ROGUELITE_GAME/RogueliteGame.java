@@ -1,6 +1,5 @@
 package com.company.ROGUELITE_GAME;
 
-import com.company.ROGUELITE_GAME.Doors.Door;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.ROGUELITE_GAME.WorldGen.Floor;

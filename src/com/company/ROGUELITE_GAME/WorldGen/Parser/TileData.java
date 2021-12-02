@@ -1,4 +1,4 @@
-package com.company.ROGUELITE_GAME.WorldGen;
+package com.company.ROGUELITE_GAME.WorldGen.Parser;
 
 public class TileData {
     public int tileID;

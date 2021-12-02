@@ -42,7 +42,7 @@ public class HUD extends MovableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawText(String.valueOf(GameTime.getCurrentFps()),getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(),getCoordinates().getY() - Camera.getInstance().getCoordinates().getY() + 9,Color.cyan);
+        buffer.drawText(String.valueOf(GameTime.getCurrentFps()),16,16,Color.cyan);
     }
 
     @Override

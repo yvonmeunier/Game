@@ -10,10 +10,21 @@ public class FloorGenerator {
     private int width, height, level;
     private int numberOfRooms;
     private HashSet<Integer> roomQueue;
-    private HashSet<Integer> deadEndQueue;
+    private static FloorGenerator instance;
+
+    public static FloorGenerator getInstance() {
+        if (instance == null) {
+            instance = new FloorGenerator();
+        }
+        return instance;
+    }
+
+    private FloorGenerator() {
+
+    }
 
     public Floor generateFloor(int width, int height, int level) {
-        generatedFloor = new Floor();
+        generatedFloor = new Floor(width,height);
 
         this.width = width;
         this.height = height;
@@ -25,14 +36,25 @@ public class FloorGenerator {
         // DEBUG
         printFloor(rooms);
 
+        fillFloor();
+
         return generatedFloor;
+    }
+
+    private void fillFloor() {
+
+        for (int i = 0; i < rooms.length; i++) {
+            if (rooms[i] == 1) {
+                generatedFloor.placeRoomAtId(i);
+            }
+        }
+
     }
 
     private void init() {
         rooms = new int[width * height];
         rnd = new Random();
         roomQueue = new HashSet<>();
-        deadEndQueue = new HashSet<>();
         numberOfRooms = (int) (rnd.nextInt(2) + 5 + level * 2.6);
     }
 

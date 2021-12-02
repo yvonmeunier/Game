@@ -1,5 +1,7 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Doors.Door;
+import com.company.ROGUELITE_GAME.Doors.UpDoor;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
@@ -60,6 +62,11 @@ public class Player extends ControllableEntity {
         if (other instanceof Blockade) {
             setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),CollisionManager.resolve(this,other),0.0001f)));
         }
+
+        if (other instanceof Door) {
+            setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),CollisionManager.resolve(this,other),0.0001f)));
+        }
+
     }
 
     @Override
@@ -67,11 +74,15 @@ public class Player extends ControllableEntity {
         if (other instanceof Blockade) {
             setCurrentVector(CollisionManager.resolvePhasing(this,other));
         }
+        if (other instanceof UpDoor) {
+            setCurrentVector(CollisionManager.resolvePhasing(this,other));
+        }
     }
 
     @Override
     public void draw(Buffer buffer) {
         buffer.drawCircle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(),getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(),16f, Color.GREEN);
+
     }
 
     private void updateVector() {

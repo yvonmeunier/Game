@@ -7,10 +7,16 @@ import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.shapes.Rectangle;
-// TODO: offset entity draw by the width and height of player collision
+
+import java.awt.*;
+
 public class Camera extends MovableEntity {
     private MovableEntity followedEntity;
     private static Camera instance;
+
+    public MovableEntity getFollowedEntity() {
+        return followedEntity;
+    }
 
     public static Camera getInstance() {
         if (instance == null){
@@ -25,7 +31,7 @@ public class Camera extends MovableEntity {
 
     public void update(MovableEntity target) {
         followedEntity = target;
-        setCoordinates(new Point(followedEntity.getCoordinates().getX() - 606,followedEntity.getCoordinates().getY() - 328));
+        setCoordinates(new Point(followedEntity.getCoordinates().getX() - 640,followedEntity.getCoordinates().getY() - 360));
     }
 
     @Override
@@ -44,9 +50,7 @@ public class Camera extends MovableEntity {
     }
     public void draw (Buffer buffer) {
         for (CollidableEntity entity : CollidableRepository.getInstance().getEntities()) {
-            if (CollisionManager.collisionCheck(entity,this)) {
-                entity.draw(buffer);
-            }
+            entity.draw(buffer);
         }
     }
 }

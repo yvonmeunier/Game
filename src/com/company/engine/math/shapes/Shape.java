@@ -2,7 +2,7 @@ package com.company.engine.math.shapes;
 
 public abstract class Shape {
 
-    abstract float getWidth();
-    abstract float getHeight();
+    public abstract float getWidth();
+    public abstract float getHeight();
     abstract Shape getShape();
 }

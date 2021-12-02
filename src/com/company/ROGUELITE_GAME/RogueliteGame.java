@@ -1,8 +1,12 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Doors.UpDoor;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
+import com.company.ROGUELITE_GAME.WorldGen.Floor;
+import com.company.ROGUELITE_GAME.WorldGen.FloorGenerator;
+import com.company.ROGUELITE_GAME.WorldGen.Room;
 import com.company.engine.Buffer;
 import com.company.engine.Game;
 import com.company.engine.GameTime;
@@ -17,12 +21,19 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 
 public class RogueliteGame extends Game {
-    GamePad gamePad;
-    Player player;
-    Blockade blockade;
-    MouseController mouse;
-    Camera camera;
-    HUD hud;
+
+    private int width;
+    private int height;
+    private int level;
+
+    private GamePad gamePad;
+    private Player player;
+    private Blockade blockade;
+    private MouseController mouse;
+    private Camera camera;
+    private HUD hud;
+    private Floor currentFloor;
+    private Room currentRoom;
 
     @Override
     public void init() {
@@ -30,9 +41,14 @@ public class RogueliteGame extends Game {
         gamePad = new GamePad();
         mouse = new MouseController();
         player = new Player(gamePad,mouse,new Point(640,360));
-        blockade = new Blockade(new Point(100,100));
+        //blockade = new Blockade(new Point(100,100));
+        UpDoor door = new UpDoor(new Point(600,300));
         camera = Camera.getInstance();
         hud = HUD.getInstance();
+        level = 1;
+        width = 20;
+        height = 20;
+        currentFloor = FloorGenerator.getInstance().generateFloor(width,height,level);
         RenderingEngine.getInstance().getScreen().showCrossHair();
     }
 

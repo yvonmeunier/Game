@@ -17,12 +17,12 @@ public class Circle extends Shape {
     }
 
     @Override
-    float getWidth() {
+    public float getWidth() {
         return 2 * radius;
     }
 
     @Override
-    float getHeight() {
+    public float getHeight() {
         return 2 * radius;
     }
 

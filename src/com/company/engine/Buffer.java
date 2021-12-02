@@ -37,4 +37,12 @@ public class Buffer {
         graphics.fillRect((int) coord.getX(), (int) coord.getY(), (int) width, (int) height);
     }
 
+    public void drawImage(Image image, int x, int y) {
+        graphics.drawImage(image, x, y, null);
+    }
+
+    public void drawImage(Image image, Point coord) {
+        graphics.drawImage(image, (int) coord.getX(), (int) coord.getY(), null);
+    }
+
 }

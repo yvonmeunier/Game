@@ -10,9 +10,10 @@ public class Room {
     public BufferedImage roomImage;
     public Layout layout;
 
+
     public Room() throws IOException {
-        roomImage = ImageIO.read(this.getClass().getResourceAsStream("Rooms/Default/Default.png"));
-        layout = new Layout(this);
+        roomImage = ImageIO.read(this.getClass().getResourceAsStream("/Rooms/Default/Default.png"));
+
     }
 
 }

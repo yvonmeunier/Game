@@ -3,6 +3,9 @@ package com.company.engine;
 import com.company.engine.math.Point;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
 public class Buffer {
 
@@ -42,7 +45,13 @@ public class Buffer {
     }
 
     public void drawImage(Image image, Point coord) {
-        graphics.drawImage(image, (int) coord.getX(), (int) coord.getY(), null);
+        drawImage(image, (int) coord.getX(), (int) coord.getY());
     }
 
+    public BufferedImage flipImage(BufferedImage image,Point coord , double angle) {
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(angle,image.getWidth()/2,image.getHeight()/2);
+        AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(image,null);
+    }
 }

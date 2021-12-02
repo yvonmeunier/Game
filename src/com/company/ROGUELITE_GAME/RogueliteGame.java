@@ -1,24 +1,19 @@
 package com.company.ROGUELITE_GAME;
 
-import com.company.ROGUELITE_GAME.Doors.UpDoor;
+import com.company.ROGUELITE_GAME.Doors.Door;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
-import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.ROGUELITE_GAME.WorldGen.Floor;
 import com.company.ROGUELITE_GAME.WorldGen.FloorGenerator;
 import com.company.ROGUELITE_GAME.WorldGen.Room;
 import com.company.engine.Buffer;
 import com.company.engine.Game;
-import com.company.engine.GameTime;
 import com.company.engine.RenderingEngine;
 import com.company.engine.controls.MouseController;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
-
-import java.awt.*;
-import java.awt.event.MouseAdapter;
 
 public class RogueliteGame extends Game {
 
@@ -34,6 +29,7 @@ public class RogueliteGame extends Game {
     private HUD hud;
     private Floor currentFloor;
     private Room currentRoom;
+    private Door door;
 
     @Override
     public void init() {
@@ -42,7 +38,11 @@ public class RogueliteGame extends Game {
         mouse = new MouseController();
         player = new Player(gamePad,mouse,new Point(640,360));
         //blockade = new Blockade(new Point(100,100));
-        UpDoor door = new UpDoor(new Point(600,300));
+        try {
+            door = new Door(new Point(600,300), Door.DOWN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         camera = Camera.getInstance();
         hud = HUD.getInstance();
         level = 1;
@@ -50,6 +50,7 @@ public class RogueliteGame extends Game {
         height = 20;
         currentFloor = FloorGenerator.getInstance().generateFloor(width,height,level);
         RenderingEngine.getInstance().getScreen().showCrossHair();
+        currentRoom = currentFloor.getRoomById(width * (height / 2) + (width / 2));
     }
 
     @Override
@@ -62,7 +63,14 @@ public class RogueliteGame extends Game {
         if (gamePad.isQuitPressed()) {
             stop();
         }
-
+        if (gamePad.isActiveItemPressed()) {
+            if (door.isOpen()) {
+                door.close();
+            } else {
+                door.open();
+            }
+        }
+        door.update();
         player.update();
         for (MovableEntity entity: MovingRepository.getInstance().getEntities()) {
             for (CollidableEntity other: CollidableRepository.getInstance().getEntities()) {
@@ -82,7 +90,7 @@ public class RogueliteGame extends Game {
 
     @Override
     public void draw(Buffer buffer) {
-        camera.draw(buffer);
+        camera.draw(buffer, currentRoom.getRoomImage());
         hud.draw(buffer);
     }
 }

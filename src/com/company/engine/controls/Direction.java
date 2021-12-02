@@ -10,21 +10,4 @@ public enum Direction {
         this.xMultiplier = xMultiplier;
         this.yMultiplier = yMultiplier;
     }
-
-    public int getVelocityX(int speed) {
-        if (yMultiplier != 0){
-            return (int) (xMultiplier * 0.7 * speed);
-        }
-        return xMultiplier * speed;
-
-    }
-
-    public int getVelocityY(int speed) {
-        if (xMultiplier != 0) {
-            return (int) (yMultiplier * 0.7 * speed);
-        }
-        return yMultiplier * speed;
-
-    }
-
 }

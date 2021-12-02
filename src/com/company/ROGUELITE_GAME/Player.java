@@ -1,7 +1,6 @@
 package com.company.ROGUELITE_GAME;
 
 import com.company.ROGUELITE_GAME.Doors.Door;
-import com.company.ROGUELITE_GAME.Doors.UpDoor;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
@@ -74,7 +73,7 @@ public class Player extends ControllableEntity {
         if (other instanceof Blockade) {
             setCurrentVector(CollisionManager.resolvePhasing(this,other));
         }
-        if (other instanceof UpDoor) {
+        if (other instanceof Door) {
             setCurrentVector(CollisionManager.resolvePhasing(this,other));
         }
     }

@@ -9,6 +9,7 @@ import com.company.engine.math.Point;
 import com.company.engine.math.shapes.Rectangle;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Camera extends MovableEntity {
     private MovableEntity followedEntity;
@@ -48,9 +49,16 @@ public class Camera extends MovableEntity {
     public void onPhasing(CollidableEntity other) throws CloneNotSupportedException {
 
     }
-    public void draw (Buffer buffer) {
+    public void draw (Buffer buffer, BufferedImage world) {
+        buffer.drawImage(world.getSubimage((int)getCoordinates().getX(),(int)getCoordinates().getY(),1280,720),new Point(0,0));
         for (CollidableEntity entity : CollidableRepository.getInstance().getEntities()) {
             entity.draw(buffer);
         }
+        followedEntity.draw(buffer);
+    }
+
+    @Override
+    public void draw(Buffer buffer) {
+
     }
 }

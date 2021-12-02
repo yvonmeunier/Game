@@ -16,4 +16,7 @@ public class Room {
 
     }
 
+    public BufferedImage getRoomImage() {
+        return roomImage;
+    }
 }

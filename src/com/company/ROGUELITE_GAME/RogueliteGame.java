@@ -1,6 +1,7 @@
 package com.company.ROGUELITE_GAME;
 
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
+import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.ROGUELITE_GAME.WorldGen.Floor;
 import com.company.ROGUELITE_GAME.WorldGen.FloorGenerator;
@@ -35,7 +36,7 @@ public class RogueliteGame extends Game {
         gamePad = new GamePad();
         mouse = new MouseController();
         player = new Player(gamePad,mouse,new Point(640,360));
-        fly = new Fly(new Point(640,360));
+        fly = new Fly(new Point(500,500));
         camera = Camera.getInstance();
         hud = HUD.getInstance();
         level = 1;
@@ -55,6 +56,11 @@ public class RogueliteGame extends Game {
     public void update() throws CloneNotSupportedException {
         if (gamePad.isQuitPressed()) {
             stop();
+        }
+        for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
+            if (entity instanceof Bullet) {
+                entity.update();
+            }
         }
         player.update();
         fly.update(player);

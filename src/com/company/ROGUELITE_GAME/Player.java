@@ -37,13 +37,25 @@ public class Player extends ControllableEntity {
         super.update();
         updateVector();
         updateMouse();
-        if (getCurrentVector() != new Vector2D()) {
+        if (mouse.buttonDown(1)) {
+            shoot();
+        }
+        if (getCurrentVector() != Vector2D.ZERO) {
             MovingRepository.getInstance().getEntities().add(this);
         }else {
             if (MovingRepository.getInstance().getEntities().contains(this)) {
                 MovingRepository.getInstance().getEntities().remove(this);
             }
         }
+    }
+
+    private void shoot() {
+        float bulletX = mouse.getPosition().x + Camera.getInstance().getCoordinates().getX() - ((Circle)getHurtBox()).getRadius();
+        float bulletY = mouse.getPosition().y + Camera.getInstance().getCoordinates().getY() - ((Circle)getHurtBox()).getRadius();
+
+
+
+        new Bullet(new Point(bulletX,bulletY),new Vector2D());
     }
 
     private void updateMouse() {
@@ -64,7 +76,9 @@ public class Player extends ControllableEntity {
         if (other instanceof Door) {
             setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),CollisionManager.resolve(this,other),0.0001f)));
         }
-
+        if (other instanceof Fly) {
+            setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),CollisionManager.resolve(this,other),0.0001f)));
+        }
     }
 
     @Override
@@ -80,7 +94,6 @@ public class Player extends ControllableEntity {
     @Override
     public void draw(Buffer buffer) {
         buffer.drawCircle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(),getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(),16f, Color.GREEN);
-
     }
 
     private void updateVector() {

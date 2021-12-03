@@ -10,22 +10,24 @@ import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Circle;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class Fly extends MovableEntity {
-
-    private BufferedImage[] moveAnimation;
-    private BufferedImage[] deathAnimation;
-    private BufferedImage sprites;
-
-    public Fly(Point coord) {
-        setCoordinates(coord);
-        setHurtBox(new Circle(8f));
-        setCurrentVector(new Vector2D());
-        setSpeed(1);
-        setAccelerationRate(0.2f);
-        MovableRepository.getInstance().getEntities().add(this);
+public class Bullet extends MovableEntity {
+    public Bullet(Point coordinates,Vector2D velo) {
+        setCoordinates(coordinates);
+        setHurtBox(new Circle(3));
+        setSpeed(2);
+        setAccelerationRate(0.3f);
+        setCurrentVector(velo);
+        setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));
         CollidableRepository.getInstance().getEntities().add(this);
+        MovableRepository.getInstance().getEntities().add(this);
+    }
+
+    @Override
+    public void update() {
+
+        capSpeed();
+        move();
     }
 
     @Override
@@ -46,16 +48,5 @@ public class Fly extends MovableEntity {
     @Override
     public void draw(Buffer buffer) {
         buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.GREEN);
-    }
-
-    public void update(Player player) {
-        setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),Vector2D.ZERO,getAccelerationRate())));
-        // move towards player
-
-        if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
-            setCurrentVector(getCurrentVector().multiplyVector(0.7f));
-        }
-        setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));
-        capSpeed();
     }
 }

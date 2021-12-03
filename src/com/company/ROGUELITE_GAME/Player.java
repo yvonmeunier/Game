@@ -53,7 +53,11 @@ public class Player extends ControllableEntity {
         float bulletX = mouse.getPosition().x + Camera.getInstance().getCoordinates().getX() - ((Circle)getHurtBox()).getRadius();
         float bulletY = mouse.getPosition().y + Camera.getInstance().getCoordinates().getY() - ((Circle)getHurtBox()).getRadius();
 
+        float distX = getCoordinates().getX() + Camera.getInstance().getCoordinates().getX();
+        float distY = getCoordinates().getY() + Camera.getInstance().getCoordinates().getY();
 
+        bulletX += distX;
+        bulletY += distY;
 
         new Bullet(new Point(bulletX,bulletY),new Vector2D());
     }

@@ -62,10 +62,12 @@ public class Vector2D {
     }
 
     public static Vector2D normalizeVector(Vector2D target) {
-        return new Vector2D(target.x - (float) Math.floor(target.x),target.y - (float) Math.floor(target.y));
+        float val = 1f / (float) Math.sqrt((target.x * target.x) + (target.y * target.y));
+        return target.multiplyVector(val);
     }
 
     public static Vector2D lerp(Vector2D start, Vector2D end, float percentage) {
+
         return new Vector2D(((1 - percentage) * start.x + percentage * end.x),((1 - percentage) * start.y + percentage * end.y));
     }
 

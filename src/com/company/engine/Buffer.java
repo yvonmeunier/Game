@@ -25,6 +25,11 @@ public class Buffer {
         graphics.fillOval((int) x, (int) y, (int) (radius * 2), (int) (radius * 2));
     }
 
+    public void drawLine(float x, float y, float x2, float y2, Paint pain) {
+        graphics.setPaint(pain);
+        graphics.drawLine((int)x, (int)y, (int)x2, (int)y2);
+    }
+
     public void drawCircle(Point coord, float radius, Paint paint) {
         graphics.setPaint(paint);
         graphics.fillOval((int) coord.getX(), (int) coord.getY(), (int) (radius * 2), (int) (radius * 2));

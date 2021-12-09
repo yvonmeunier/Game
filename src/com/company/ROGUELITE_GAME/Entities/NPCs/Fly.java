@@ -1,5 +1,9 @@
-package com.company.ROGUELITE_GAME;
+package com.company.ROGUELITE_GAME.Entities.NPCs;
 
+import com.company.ROGUELITE_GAME.Entities.Projectiles.Bullet;
+import com.company.ROGUELITE_GAME.Camera;
+import com.company.ROGUELITE_GAME.Entities.Player;
+import com.company.ROGUELITE_GAME.Entities.Projectiles.Projectile;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.engine.Buffer;
@@ -12,11 +16,12 @@ import com.company.engine.math.shapes.Circle;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Fly extends MovableEntity {
+public class Fly extends NPC {
 
     private BufferedImage[] moveAnimation;
     private BufferedImage[] deathAnimation;
     private BufferedImage sprites;
+    private int hp;
 
     public Fly(Point coord) {
         setCoordinates(coord);
@@ -26,12 +31,24 @@ public class Fly extends MovableEntity {
         setAccelerationRate(0.2f);
         MovableRepository.getInstance().getEntities().add(this);
         CollidableRepository.getInstance().getEntities().add(this);
+
+        this.hp = 500;
     }
 
     @Override
-    public void onCollide(MovableEntity other) {
-
+    public boolean onPlayerCollide(Player player) {
+        if (player.isDashing()){
+            this.hp = 0;
+        }
+        return false;
     }
+
+    @Override
+    public boolean onProjectileCollide(Projectile projectile) {
+        return true;
+    }
+
+
 
     @Override
     public void onColliding(CollidableEntity other) throws CloneNotSupportedException {

@@ -9,6 +9,7 @@ public abstract class MovementController extends Controller {
     private int leftKey = KeyEvent.VK_A;
     private int rightKey = KeyEvent.VK_D;
 
+
     public boolean isLeftPressed() {
         return isKeyPressed(leftKey);
     }
@@ -24,6 +25,8 @@ public abstract class MovementController extends Controller {
     public boolean isDownPressed() {
         return isKeyPressed(downKey);
     }
+
+
 
     public boolean isMoving() {
         return isLeftPressed() || isRightPressed() || isUpPressed() || isDownPressed();
@@ -52,6 +55,8 @@ public abstract class MovementController extends Controller {
         bindKey(rightKey);
         this.rightKey = rightKey;
     }
+
+
 
     public MovementController() {
 

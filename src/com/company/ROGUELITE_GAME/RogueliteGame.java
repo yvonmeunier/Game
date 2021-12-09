@@ -16,6 +16,8 @@ import com.company.engine.RenderingEngine;
 import com.company.engine.controls.MouseController;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
+import com.company.engine.entities.StaticEntity;
+import com.company.engine.entities.UpdatableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 
@@ -69,10 +71,11 @@ public class RogueliteGame extends Game {
         if (gamePad.isQuitPressed()) {
             stop();
         }
+
         for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
             entity.update();
         }
-        player.update();
+
         for (MovableEntity entity: MovingRepository.getInstance().getEntities()) {
             for (CollidableEntity other: CollidableRepository.getInstance().getEntities()) {
                 if (CollisionManager.isGoingToCollide( entity,other) && entity != other) {
@@ -92,6 +95,8 @@ public class RogueliteGame extends Game {
         MovableRepository.getInstance().getEntities().removeIf(movableEntity -> !movableEntity.isActive());
         CollidableRepository.getInstance().getEntities().removeIf(collidableEntity -> !collidableEntity.isActive());
         MovingRepository.getInstance().getEntities().removeIf(movingEntity -> !movingEntity.isActive());
+
+        MovableRepository.getInstance().registerQueuedEntity();
     }
 
     @Override

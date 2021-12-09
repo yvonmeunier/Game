@@ -28,11 +28,17 @@ public class Bullet extends Projectile {
         setCurrentVector(velo);
         setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));
         CollidableRepository.getInstance().getEntities().add(this);
-        MovableRepository.getInstance().getEntities().add(this);
+        MovableRepository.getInstance().queueNewEntity(this);
         MovingRepository.getInstance().getEntities().add(this);
         lifeTimer = 1;
     }
 
+    @Override
+    public void update() {
+        capSpeed();
+        move();
+        super.update();
+    }
 
     @Override
     public void onCollide(MovableEntity other) {

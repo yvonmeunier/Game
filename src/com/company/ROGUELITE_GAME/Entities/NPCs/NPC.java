@@ -45,6 +45,9 @@ public class NPC extends MovableEntity {
             this.hp -= damage;
             iFrameDuration = 30;
         }
+        if(this.hp <= 0) {
+            active = false;
+        }
     }
 
     @Override

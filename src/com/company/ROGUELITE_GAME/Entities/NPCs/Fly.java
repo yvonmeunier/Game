@@ -69,6 +69,8 @@ public class Fly extends NPC {
         setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),Vector2D.ZERO,getAccelerationRate())));
         // move towards player
 
+        setCurrentVector(Vector2D.lerp(getCurrentVector(),player.getCoordinates().toVector(),0.1f));
+
         if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
             setCurrentVector(getCurrentVector().multiplyVector(0.7f));
         }

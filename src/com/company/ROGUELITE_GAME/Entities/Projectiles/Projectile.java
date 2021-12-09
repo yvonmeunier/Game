@@ -40,8 +40,6 @@ public class Projectile extends MovableEntity {
         if (lifeTimer >= lifespan) {
             active = false;
         }
-        capSpeed();
-        move();
         lifeTimer++;
     }
 

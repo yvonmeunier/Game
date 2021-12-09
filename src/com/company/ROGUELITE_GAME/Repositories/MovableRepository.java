@@ -5,7 +5,7 @@ import com.company.engine.entities.MovableEntity;
 import java.util.ArrayList;
 
 public class MovableRepository {
-    private ArrayList<MovableEntity> movableEntities;
+    public static ArrayList<MovableEntity> movableEntities;
     private static MovableRepository instance;
 
     public MovableRepository() {

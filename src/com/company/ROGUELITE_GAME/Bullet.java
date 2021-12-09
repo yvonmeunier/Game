@@ -12,6 +12,11 @@ import com.company.engine.math.shapes.Circle;
 import java.awt.*;
 
 public class Bullet extends MovableEntity {
+
+    private final int lifespan = 60;
+    private int lifeTimer;
+
+
     public Bullet(Point coordinates,Vector2D velo) {
         setCoordinates(coordinates);
         setHurtBox(new Circle(3));
@@ -21,13 +26,17 @@ public class Bullet extends MovableEntity {
         setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));
         CollidableRepository.getInstance().getEntities().add(this);
         MovableRepository.getInstance().getEntities().add(this);
+        lifeTimer = 1;
     }
 
     @Override
     public void update() {
-
+        if (lifeTimer >= lifespan) {
+            active = false;
+        }
         capSpeed();
         move();
+        lifeTimer++;
     }
 
     @Override

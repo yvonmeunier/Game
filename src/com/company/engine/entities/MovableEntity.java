@@ -66,4 +66,7 @@ public abstract class MovableEntity extends UpdatableEntity implements Cloneable
     public void setCurrentVector(Vector2D currentVector) {
         this.currentVector = currentVector;
     }
+
+
+
 }

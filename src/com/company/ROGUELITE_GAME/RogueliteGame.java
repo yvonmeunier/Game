@@ -60,7 +60,9 @@ public class RogueliteGame extends Game {
         }
         for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
             if (entity instanceof Bullet) {
-                entity.update();
+                if (((Bullet)entity).isActive()) {
+                    entity.update();
+                }
             }
         }
         player.update();
@@ -80,6 +82,9 @@ public class RogueliteGame extends Game {
         player.move();
         hud.update(player);
         camera.update(player);
+
+        MovableRepository.getInstance().getEntities().removeIf(movableEntity -> !movableEntity.isActive());
+        CollidableRepository.getInstance().getEntities().removeIf(collidableEntity -> !collidableEntity.isActive());
     }
 
     @Override

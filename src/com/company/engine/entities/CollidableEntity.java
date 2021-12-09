@@ -6,6 +6,11 @@ public abstract class CollidableEntity extends StaticEntity implements Cloneable
 
     private Shape hurtBox;
     private Shape hitBox;
+    protected boolean active = true;
+
+    public boolean isActive() {
+        return active;
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {

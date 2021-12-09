@@ -44,6 +44,7 @@ public class RogueliteGame extends Game {
         height = 20;
         currentFloor = FloorGenerator.getInstance().generateFloor(width,height,level);
         RenderingEngine.getInstance().getScreen().showCrossHair();
+        RenderingEngine.getInstance().getScreen().fullscreen();
         currentRoom = currentFloor.getRoomById(width * (height / 2) + (width / 2));
     }
 

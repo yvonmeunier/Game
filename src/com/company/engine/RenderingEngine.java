@@ -62,7 +62,7 @@ public class RenderingEngine {
     }
 
     public Buffer getRenderingBuffer() {
-        bufferedImage = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bufferedImage.createGraphics();
         graphics.setRenderingHints(getOptimalRenderingHints());
         return new Buffer(graphics);

@@ -95,7 +95,7 @@ public class Player extends ControllableEntity {
 
     private void shoot() {
         Vector2D velocity;
-        velocity = Vector2D.normalizeVector(new Vector2D(mouse.getPosition().x - 656, mouse.getPosition().y - 376));
+        velocity = Vector2D.normalizeVector(new Vector2D(mouse.getPosition().x - getCoordinates().getX(), mouse.getPosition().y - getCoordinates().getY()));
         new Bullet(getCoordinates(), velocity);
     }
 

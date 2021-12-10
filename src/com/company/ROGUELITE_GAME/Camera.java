@@ -28,6 +28,7 @@ public class Camera extends MovableEntity {
 
     private Camera () {
         setHurtBox(new Rectangle(1280,720));
+        setCoordinates(new Point(0,0));
     }
 
     public void update(MovableEntity target) {

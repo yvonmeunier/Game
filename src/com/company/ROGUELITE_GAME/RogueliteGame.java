@@ -28,11 +28,11 @@ public class RogueliteGame extends Game {
     private int width;
     private int height;
     private int level;
+    private boolean isCleared;
+    private int enemyLeft;
 
     private GamePad gamePad;
     private Player player;
-    private Fly fly;
-    private Blockade blockade;
     private MouseController mouse;
     private Camera camera;
     private HUD hud;
@@ -47,7 +47,6 @@ public class RogueliteGame extends Game {
         gamePad = new GamePad();
         mouse = new MouseController();
         player = new Player(gamePad,mouse,new Point(640,360));
-        fly = new Fly(new Point(500,500));
         camera = Camera.getInstance();
         hud = HUD.getInstance();
         level = 1;
@@ -57,8 +56,8 @@ public class RogueliteGame extends Game {
         RenderingEngine.getInstance().getScreen().showCrossHair();
         //RenderingEngine.getInstance().getScreen().fullscreen();
         currentRoom = currentFloor.getRoomById(width * (height / 2) + (width / 2));
-
         npcs = new ArrayList<>();
+        npcs.add(new Fly(new Point(52,level + 52)));
     }
 
     @Override
@@ -68,11 +67,20 @@ public class RogueliteGame extends Game {
 
     @Override
     public void update() throws CloneNotSupportedException {
+        enemyLeft = 0;
+        for (NPC npc:npcs) {
+            if (npc.isActive()) {
+                enemyLeft++;
+            }
+        }
         if (gamePad.isQuitPressed()) {
             stop();
         }
 
         for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
+            if (entity instanceof Fly) {
+                ((Fly)entity).update(player);
+            }
             entity.update();
         }
 
@@ -87,8 +95,10 @@ public class RogueliteGame extends Game {
                 }
             }
         }
-        fly.move();
-        player.move();
+        for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
+            entity.move();
+        }
+        //player.move();
         hud.update(player);
         camera.update(player);
 
@@ -96,6 +106,12 @@ public class RogueliteGame extends Game {
         CollidableRepository.getInstance().getEntities().removeIf(collidableEntity -> !collidableEntity.isActive());
         MovingRepository.getInstance().getEntities().removeIf(movingEntity -> !movingEntity.isActive());
         MovableRepository.getInstance().registerQueuedEntity();
+        if (enemyLeft == 0) {
+            level++;
+            for (int i = 0; i < level; i++) {
+                npcs.add(new Fly(new Point(52,i * 52)));
+            }
+        }
     }
 
     @Override

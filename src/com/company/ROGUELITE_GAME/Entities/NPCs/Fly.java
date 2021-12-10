@@ -6,6 +6,7 @@ import com.company.ROGUELITE_GAME.Entities.Player;
 import com.company.ROGUELITE_GAME.Entities.Projectiles.Projectile;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
+import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
@@ -27,17 +28,17 @@ public class Fly extends NPC {
         setCoordinates(coord);
         setHurtBox(new Circle(8f));
         setCurrentVector(new Vector2D());
-        setSpeed(1);
+        setSpeed(2);
         setAccelerationRate(0.2f);
         MovableRepository.getInstance().getEntities().add(this);
         CollidableRepository.getInstance().getEntities().add(this);
-
+        MovingRepository.getInstance().getEntities().add(this);
         this.hp = 500;
     }
 
     @Override
     public boolean onPlayerCollide(Player player) {
-        if (player.isDashing()){
+        if (player.isDashing()) {
             this.hp = 0;
         }
         return false;
@@ -47,7 +48,6 @@ public class Fly extends NPC {
     public boolean onProjectileCollide(Projectile projectile) {
         return true;
     }
-
 
 
     @Override
@@ -62,14 +62,14 @@ public class Fly extends NPC {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.GREEN);
+        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.GREEN);
     }
 
     public void update(Player player) {
-        setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(),Vector2D.ZERO,getAccelerationRate())));
+        setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(), Vector2D.ZERO, getAccelerationRate())));
         // move towards player
-
-        setCurrentVector(Vector2D.lerp(getCurrentVector(),player.getCoordinates().toVector(),0.1f));
+        setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(), Vector2D.normalizeVector(new Vector2D(player.getCoordinates().getX() - Camera.getInstance().getCoordinates().getX() - 16, player.getCoordinates().getY() - Camera.getInstance().getCoordinates().getY() - 16)), getAccelerationRate())));
+        System.out.println(getCurrentVector());
 
         if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
             setCurrentVector(getCurrentVector().multiplyVector(0.7f));

@@ -27,7 +27,7 @@ import java.awt.*;
 public class Player extends ControllableEntity {
 
     MouseController mouse;
-    private float bulletdelay = 60;
+    private float bulletDelay = 30;
     private float shootTimer = 0;
     private boolean dashing;
     private Vector2D dashingTo;
@@ -54,7 +54,7 @@ public class Player extends ControllableEntity {
 
         if (mouse.buttonDown(1) && shootTimer <= 0) {
             shoot();
-            shootTimer = bulletdelay;
+            shootTimer = bulletDelay;
         }
         if (mouse.buttonDownOnce(3)) {
             dash();
@@ -95,7 +95,7 @@ public class Player extends ControllableEntity {
 
     private void shoot() {
         Vector2D velocity;
-        velocity = Vector2D.normalizeVector(new Vector2D(mouse.getPosition().x - getCoordinates().getX(), mouse.getPosition().y - getCoordinates().getY()));
+        velocity = Vector2D.normalizeVector(new Vector2D(mouse.getPosition().x - getCoordinates().getX() + Camera.getInstance().getCoordinates().getX() - 16, mouse.getPosition().y - getCoordinates().getY() + Camera.getInstance().getCoordinates().getY() - 16));
         new Bullet(getCoordinates(), velocity);
     }
 

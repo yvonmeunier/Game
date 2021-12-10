@@ -1,14 +1,10 @@
 package com.company.ROGUELITE_GAME;
 
-import com.company.ROGUELITE_GAME.Camera;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.engine.Buffer;
-import com.company.engine.controls.Direction;
-import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.entities.UpdatableEntity;
 import com.company.engine.math.Point;
-import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Rectangle;
 
 import javax.imageio.ImageIO;

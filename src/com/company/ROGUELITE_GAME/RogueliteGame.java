@@ -78,7 +78,7 @@ public class RogueliteGame extends Game {
 
         for (MovableEntity entity: MovingRepository.getInstance().getEntities()) {
             for (CollidableEntity other: CollidableRepository.getInstance().getEntities()) {
-                if (CollisionManager.isGoingToCollide( entity,other) && entity != other) {
+                if (CollisionManager.isGoingToCollide(entity,other) && entity != other) {
                     entity.onColliding(other);
                     other.onCollide(entity);
                 }
@@ -95,7 +95,6 @@ public class RogueliteGame extends Game {
         MovableRepository.getInstance().getEntities().removeIf(movableEntity -> !movableEntity.isActive());
         CollidableRepository.getInstance().getEntities().removeIf(collidableEntity -> !collidableEntity.isActive());
         MovingRepository.getInstance().getEntities().removeIf(movingEntity -> !movingEntity.isActive());
-
         MovableRepository.getInstance().registerQueuedEntity();
     }
 

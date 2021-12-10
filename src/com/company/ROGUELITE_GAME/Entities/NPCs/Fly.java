@@ -66,11 +66,10 @@ public class Fly extends NPC {
     }
 
     public void update(Player player) {
-        setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(), Vector2D.ZERO, getAccelerationRate())));
+        //slows down
+
         // move towards player
         setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(), Vector2D.normalizeVector(new Vector2D(player.getCoordinates().getX() - Camera.getInstance().getCoordinates().getX() - 16, player.getCoordinates().getY() - Camera.getInstance().getCoordinates().getY() - 16)), getAccelerationRate())));
-        System.out.println(getCurrentVector());
-
         if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
             setCurrentVector(getCurrentVector().multiplyVector(0.7f));
         }

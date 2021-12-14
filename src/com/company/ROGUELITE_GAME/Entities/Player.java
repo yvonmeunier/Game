@@ -93,6 +93,7 @@ public class Player extends ControllableEntity {
         if(!dashing) {
             dashingTo = this.getCoordinates().toVector().addVector(getCurrentVector().multiplyVector(dashSpeed));
             dashing = true;
+            iFrames = 20;
         }
         Vector2D velocity = Vector2D.lerp(getCoordinates().toVector(), dashingTo, 0.3f);
         setCoordinates(velocity.toPoint());
@@ -121,7 +122,7 @@ public class Player extends ControllableEntity {
 
     @Override
     public void onCollide(MovableEntity other) {
-        if (other instanceof NPC && iFrames <= 0) {
+        if (other instanceof NPC && iFrames <= 0 && !dashing) {
             new Sound("oof").play();
             hp -=3;
             iFrames = 60;

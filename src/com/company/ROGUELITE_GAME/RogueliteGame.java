@@ -53,7 +53,7 @@ public class RogueliteGame extends Game {
         player = new Player(gamePad,mouse,new Point(640,360));
         camera = Camera.getInstance();
         hud = HUD.getInstance();
-        level = 1;
+        level = 3;
         width = 20;
         height = 20;
         currentFloor = FloorGenerator.getInstance().generateFloor(width,height,level);
@@ -117,6 +117,7 @@ public class RogueliteGame extends Game {
         MovableRepository.getInstance().registerQueuedEntity();
         if (enemyLeft == 0) {
             level++;
+            player.setHP(player.getHp() + (level/2));
             for (int i = 0; i < level; i++) {
                 npcs.add(new Fly(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
             }

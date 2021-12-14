@@ -11,6 +11,7 @@ import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Circle;
+import com.company.engine.sound.Sound;
 
 import java.awt.*;
 
@@ -54,6 +55,7 @@ public class Bomb extends Projectile {
         super.update();
         if (lifeTimer > 119) {
             setHurtBox(new Circle(48f));
+            new Sound("boom").play();
         }
     }
 

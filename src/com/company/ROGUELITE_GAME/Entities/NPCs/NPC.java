@@ -7,6 +7,8 @@ import com.company.engine.Buffer;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.CollisionManager;
+import com.company.engine.math.Vector2D;
+import com.company.engine.sound.Sound;
 
 public class NPC extends MovableEntity {
 
@@ -14,6 +16,7 @@ public class NPC extends MovableEntity {
     private boolean immortal;
     protected boolean invincible;
     protected int iFrameDuration;
+    protected int deathTimer;
 
     public NPC() {
 
@@ -44,10 +47,7 @@ public class NPC extends MovableEntity {
     protected void hurt(int damage) {
         if (!invincible) {
             this.hp -= damage;
-            iFrameDuration = 0;
-        }
-        if(this.hp <= 0) {
-            active = false;
+            iFrameDuration = 10;
         }
     }
 
@@ -58,9 +58,21 @@ public class NPC extends MovableEntity {
             iFrameDuration--;
         }
 
-        if (iFrameDuration <= 0) {
+        if (iFrameDuration < 0) {
             invincible = !invincible;
         }
+
+        if(this.hp <= 0) {
+            if (deathTimer == 0) {
+                new Sound("death").play();
+            }
+            setCurrentVector(Vector2D.ZERO);
+            deathTimer++;
+            if (deathTimer >= 30) {
+                this.active = false;
+            }
+        }
+
     }
 
     @Override

@@ -71,6 +71,7 @@ public class Screen {
     private void initializeFrame() {
 
         frame = new JFrame();
+        frame.setIgnoreRepaint(true);
         frame.setResizable(false);
         frame.setTitle("TOTALLY NOT A GAME");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,6 +1,5 @@
 package com.company.ROGUELITE_GAME.Entities.NPCs;
 
-import com.company.ROGUELITE_GAME.Entities.Projectiles.Bullet;
 import com.company.ROGUELITE_GAME.Camera;
 import com.company.ROGUELITE_GAME.Entities.Player;
 import com.company.ROGUELITE_GAME.Entities.Projectiles.Projectile;
@@ -9,7 +8,7 @@ import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.entities.CollidableEntity;
-import com.company.engine.entities.MovableEntity;
+import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Circle;
@@ -22,7 +21,8 @@ public class Fly extends NPC {
     private BufferedImage[] moveAnimation;
     private BufferedImage[] deathAnimation;
     private BufferedImage sprites;
-    private int hp;
+    private int frameDelay;
+    private int currentFrame;
 
     public Fly(Point coord) {
         setCoordinates(coord);
@@ -33,13 +33,14 @@ public class Fly extends NPC {
         MovableRepository.getInstance().getEntities().add(this);
         CollidableRepository.getInstance().getEntities().add(this);
         MovingRepository.getInstance().getEntities().add(this);
-        this.hp = 500;
+        hp = 3;
+
     }
 
     @Override
     public boolean onPlayerCollide(Player player) {
         if (player.isDashing()) {
-            this.hp = 0;
+            hp = 0;
         }
         return false;
     }
@@ -52,7 +53,9 @@ public class Fly extends NPC {
 
     @Override
     public void onColliding(CollidableEntity other) throws CloneNotSupportedException {
-
+        if (other instanceof Player) {
+            setCurrentVector(getCurrentVector().subVector(CollisionManager.resolve(this,other).multiplyVector(0.1f)));
+        }
     }
 
     @Override
@@ -66,10 +69,7 @@ public class Fly extends NPC {
     }
 
     public void update(Player player) {
-        //slows down
-
-        // move towards player
-        setCurrentVector(getCurrentVector().addVector(Vector2D.lerp(getCurrentVector(), Vector2D.normalizeVector(new Vector2D(player.getCoordinates().getX() - Camera.getInstance().getCoordinates().getX() - 16, player.getCoordinates().getY() - Camera.getInstance().getCoordinates().getY() - 16)), getAccelerationRate())));
+        setCurrentVector(Vector2D.normalizeVector(new Vector2D(player.getCoordinates().getX() - getCoordinates().getX(),player.getCoordinates().getY() - getCoordinates().getY())));
         if (getCurrentVector().x != 0 && getCurrentVector().y != 0) {
             setCurrentVector(getCurrentVector().multiplyVector(0.7f));
         }

@@ -6,13 +6,14 @@ import com.company.ROGUELITE_GAME.Entities.Projectiles.Projectile;
 import com.company.engine.Buffer;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
+import com.company.engine.math.CollisionManager;
 
 public class NPC extends MovableEntity {
 
-    private int hp;
+    protected int hp;
     private boolean immortal;
-    private boolean invincible;
-    private int iFrameDuration;
+    protected boolean invincible;
+    protected int iFrameDuration;
 
     public NPC() {
 
@@ -29,7 +30,7 @@ public class NPC extends MovableEntity {
     }
 
     @Override
-    public final void onCollide(MovableEntity other) {
+    public final void onCollide(MovableEntity other) throws CloneNotSupportedException {
         if (other instanceof Projectile projectile) {
             if (onProjectileCollide(projectile) && projectile.onNPCHit(this)) {
                 hurt(projectile.getDamage());
@@ -43,7 +44,7 @@ public class NPC extends MovableEntity {
     protected void hurt(int damage) {
         if (!invincible) {
             this.hp -= damage;
-            iFrameDuration = 30;
+            iFrameDuration = 0;
         }
         if(this.hp <= 0) {
             active = false;

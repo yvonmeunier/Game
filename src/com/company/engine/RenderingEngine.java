@@ -55,14 +55,12 @@ public class RenderingEngine {
     }
 
     private RenderingEngine() {
-
         initializeScreen();
         initializePanel();
-
     }
 
     public Buffer getRenderingBuffer() {
-        bufferedImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bufferedImage.createGraphics();
         graphics.setRenderingHints(getOptimalRenderingHints());
         return new Buffer(graphics);
@@ -105,6 +103,7 @@ public class RenderingEngine {
     private void initializePanel() {
 
         panel = new JPanel();
+        panel.setIgnoreRepaint(true);
         panel.setBackground(Color.BLUE);
         panel.setFocusable(true);
         panel.setDoubleBuffered(true);
@@ -112,8 +111,8 @@ public class RenderingEngine {
     }
 
     private RenderingHints getOptimalRenderingHints() {
-        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         return rh;
     }
 

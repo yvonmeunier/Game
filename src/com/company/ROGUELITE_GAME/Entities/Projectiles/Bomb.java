@@ -19,7 +19,7 @@ public class Bomb extends Projectile {
         setCoordinates(coordinates);
         setHurtBox(new Circle(5));
         setCurrentVector(Vector2D.ZERO);
-        this.lifespan = 240;
+        this.lifespan = 120;
         this.damage = 500;
         CollidableRepository.getInstance().getEntities().add(this);
         MovableRepository.getInstance().queueNewEntity(this);
@@ -30,7 +30,7 @@ public class Bomb extends Projectile {
 
     @Override
     public boolean onNPCHit(NPC npc) {
-        if (lifeTimer < 239) {
+        if (lifeTimer < 119) {
             return false;
         }
         return true;
@@ -38,7 +38,7 @@ public class Bomb extends Projectile {
 
     @Override
     public boolean onPlayerCollide(Player player) {
-        if (lifeTimer < 239) {
+        if (lifeTimer < 119) {
             return false;
         }
         return true;
@@ -52,7 +52,7 @@ public class Bomb extends Projectile {
     @Override
     public void update() {
         super.update();
-        if (lifeTimer > 239) {
+        if (lifeTimer > 119) {
             setHurtBox(new Circle(48f));
         }
     }

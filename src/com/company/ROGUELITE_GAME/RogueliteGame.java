@@ -20,15 +20,17 @@ import com.company.engine.entities.StaticEntity;
 import com.company.engine.entities.UpdatableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
+import com.company.engine.math.shapes.Rectangle;
+import com.company.engine.sound.Sound;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RogueliteGame extends Game {
 
     private int width;
     private int height;
     private int level;
-    private boolean isCleared;
     private int enemyLeft;
 
     private GamePad gamePad;
@@ -38,12 +40,14 @@ public class RogueliteGame extends Game {
     private HUD hud;
     private Floor currentFloor;
     private Room currentRoom;
-
+    private ArrayList<Blockade> walls;
     private ArrayList<NPC> npcs;
+
+    private Random rnd;
 
     @Override
     public void init() {
-
+        rnd = new Random();
         gamePad = new GamePad();
         mouse = new MouseController();
         player = new Player(gamePad,mouse,new Point(640,360));
@@ -54,10 +58,16 @@ public class RogueliteGame extends Game {
         height = 20;
         currentFloor = FloorGenerator.getInstance().generateFloor(width,height,level);
         RenderingEngine.getInstance().getScreen().showCrossHair();
-        //RenderingEngine.getInstance().getScreen().fullscreen();
+        RenderingEngine.getInstance().getScreen().fullscreen();
         currentRoom = currentFloor.getRoomById(width * (height / 2) + (width / 2));
         npcs = new ArrayList<>();
+        walls = new ArrayList<>();
         npcs.add(new Fly(new Point(52,level + 52)));
+        walls.add(new Blockade(new Point(0,0),new Rectangle(3224,72)));
+        walls.add(new Blockade(new Point(0,952),new Rectangle(3224,72)));
+        walls.add(new Blockade(new Point(0,75),new Rectangle(72,3224)));
+        walls.add(new Blockade(new Point(1582,75),new Rectangle(72,3224)));
+        //new Sound("soundtrack").playWithLoop();
     }
 
     @Override
@@ -98,8 +108,7 @@ public class RogueliteGame extends Game {
         for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
             entity.move();
         }
-        //player.move();
-        hud.update(player);
+        hud.update(player,level);
         camera.update(player);
 
         MovableRepository.getInstance().getEntities().removeIf(movableEntity -> !movableEntity.isActive());
@@ -109,8 +118,13 @@ public class RogueliteGame extends Game {
         if (enemyLeft == 0) {
             level++;
             for (int i = 0; i < level; i++) {
-                npcs.add(new Fly(new Point(52,i * 52)));
+                npcs.add(new Fly(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
             }
+        }
+        if (player.getHp() <= 0) {
+            new Sound("bonk").play();
+            player.setHP(10);
+            level = 1;
         }
     }
 

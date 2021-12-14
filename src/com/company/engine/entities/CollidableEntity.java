@@ -17,7 +17,7 @@ public abstract class CollidableEntity extends StaticEntity implements Cloneable
         return super.clone();
     }
 
-    public abstract void onCollide(MovableEntity other);
+    public abstract void onCollide(MovableEntity other) throws CloneNotSupportedException;
 
     public void setHurtBox(Shape shape) {
         this.hurtBox = shape;

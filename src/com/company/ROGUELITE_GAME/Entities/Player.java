@@ -21,6 +21,7 @@ import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Circle;
+import com.company.engine.sound.Sound;
 
 import java.awt.*;
 
@@ -31,6 +32,8 @@ public class Player extends ControllableEntity {
     private float shootTimer = 0;
     private boolean dashing;
     private Vector2D dashingTo;
+    private int iFrames;
+    private int hp = 10;
 
     public Player(MovementController keyboard, MouseController mouse, Point coord) {
         super(keyboard);
@@ -38,7 +41,7 @@ public class Player extends ControllableEntity {
         setHurtBox(new Circle(16f));
         setCoordinates(coord);
         setCurrentVector(new Vector2D());
-        setSpeed(2);
+        setSpeed(2.5f);
         setAccelerationRate(0.3f);
         CollidableRepository.getInstance().getEntities().add(this);
         MovableRepository.getInstance().getEntities().add(this);
@@ -59,8 +62,9 @@ public class Player extends ControllableEntity {
         if (mouse.buttonDownOnce(3)) {
             dash();
         }
-        if(getController() instanceof GamePad gp && gp.isBombPressed()) {
+        if(getController() instanceof GamePad gp && gp.isBombPressed() && shootTimer <= 0) {
             bomb();
+            shootTimer = bulletDelay;
         }
         if (getCurrentVector() != Vector2D.ZERO) {
             MovingRepository.getInstance().getEntities().add(this);
@@ -73,9 +77,16 @@ public class Player extends ControllableEntity {
             dash();
         }
         shootTimer--;
+        iFrames--;
     }
 
+    public int getHp() {
+        return hp;
+    }
 
+    public void setHP(int hp) {
+        this.hp = hp;
+    }
 
     private void dash() {
         float dashSpeed = 50;
@@ -100,6 +111,7 @@ public class Player extends ControllableEntity {
     }
 
     private void bomb() {
+        new Sound("mur").play();
         new Bomb(getCoordinates());
     }
 
@@ -109,7 +121,11 @@ public class Player extends ControllableEntity {
 
     @Override
     public void onCollide(MovableEntity other) {
-
+        if (other instanceof NPC && iFrames <= 0) {
+            new Sound("oof").play();
+            hp -=3;
+            iFrames = 60;
+        }
     }
 
     @Override
@@ -121,8 +137,11 @@ public class Player extends ControllableEntity {
         if (other instanceof Door) {
             setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(), CollisionManager.resolve(this, other), 0.0001f)));
         }
+        if (other instanceof Fly) {
+            setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(), CollisionManager.resolve(this, other), 0.0001f)));
+        }
         if (!isDashing()) {
-            if (other instanceof NPC npc) {
+            if (other instanceof NPC) {
                 setCurrentVector(getCurrentVector().subVector(Vector2D.lerp(getCurrentVector(), CollisionManager.resolve(this, other), 0.0001f)));
             }
         }

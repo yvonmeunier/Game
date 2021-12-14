@@ -58,9 +58,9 @@ public class GameTime {
         long targetTime = 1000L / FPS_TARGET;
 
         long sleep = targetTime - (System.currentTimeMillis() - syncTime);
-        if (sleep < 4) {
+        if (sleep < 3) {
 
-            sleep = 4;
+            sleep = 3;
         }
 
         return sleep;

@@ -1,5 +1,6 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Entities.Player;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.engine.Buffer;
 import com.company.engine.GameTime;
@@ -16,6 +17,7 @@ public class HUD extends MovableEntity {
     private static HUD instance;
     private ArrayList<StaticEntity> HUDElements;
     private MovableEntity followedEntity;
+    private int level;
 
 
     public static HUD getInstance() {
@@ -30,8 +32,9 @@ public class HUD extends MovableEntity {
         CollidableRepository.getInstance().getEntities().add(this);
     }
 
-    public void update(MovableEntity target) {
+    public void update(MovableEntity target, int level) {
         followedEntity = target;
+        this.level = level;
         setCoordinates(new Point(followedEntity.getCoordinates().getX() - 606,followedEntity.getCoordinates().getY() - 328));
     }
 
@@ -42,7 +45,9 @@ public class HUD extends MovableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawText(String.valueOf(GameTime.getCurrentFps()),16,16,Color.cyan);
+        buffer.drawText(("FPS : " + GameTime.getCurrentFps()),16,16,Color.cyan);
+        buffer.drawText(("HEALTH : " + ((Player)followedEntity).getHp()),16,32,Color.RED);
+        buffer.drawText("LEVEL : " + level, 650,32,Color.magenta);
     }
 
     @Override

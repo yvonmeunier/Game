@@ -31,6 +31,7 @@ public class Bullet extends Projectile {
         MovableRepository.getInstance().queueNewEntity(this);
         MovingRepository.getInstance().getEntities().add(this);
         lifeTimer = 1;
+        damage = 3;
     }
 
     @Override
@@ -59,6 +60,6 @@ public class Bullet extends Projectile {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.GREEN);
+        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.YELLOW);
     }
 }

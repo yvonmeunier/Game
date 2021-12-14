@@ -5,17 +5,13 @@ import com.company.engine.Buffer;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.Point;
-import com.company.engine.math.shapes.Circle;
-import com.company.engine.math.shapes.Rectangle;
-
-import java.awt.*;
-
+import com.company.engine.math.shapes.Shape;
 
 public class Blockade extends CollidableEntity {
 
-    public Blockade(Point coord) {
+    public Blockade(Point coord, Shape shape) {
         setCoordinates(coord);
-        setHurtBox(new Circle(32));
+        setHurtBox(shape);
         CollidableRepository.getInstance().getEntities().add(this);
     }
 
@@ -26,6 +22,6 @@ public class Blockade extends CollidableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2,Color.GREEN);
+        //buffer.drawRectangle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth(), getHurtBox().getHeight(), Color.GREEN);
     }
 }

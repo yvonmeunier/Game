@@ -10,7 +10,7 @@ import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Vector2D;
 import com.company.engine.sound.Sound;
 
-public class NPC extends MovableEntity {
+public abstract class NPC extends MovableEntity {
 
     protected int hp;
     private boolean immortal;
@@ -87,6 +87,11 @@ public class NPC extends MovableEntity {
 
     @Override
     public void draw(Buffer buffer) {
+
+    }
+
+    @Override
+    public void loadSprites() {
 
     }
 }

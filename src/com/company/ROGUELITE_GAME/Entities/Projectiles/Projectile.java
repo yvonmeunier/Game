@@ -62,4 +62,9 @@ public class Projectile extends MovableEntity {
     public void draw(Buffer buffer) {
 
     }
+
+    @Override
+    public void loadSprites() {
+
+    }
 }

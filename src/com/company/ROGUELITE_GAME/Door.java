@@ -47,12 +47,7 @@ public class Door extends UpdatableEntity {
                 setHurtBox(new Rectangle(75, 75));
                 break;
         }
-
-        try {
-            setSprites(ImageIO.read(this.getClass().getResourceAsStream("/LayoutEntities/Static/doors.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadSprites();
         CollidableRepository.getInstance().getEntities().add(this);
     }
 
@@ -94,6 +89,15 @@ public class Door extends UpdatableEntity {
         setDoorImage(buffer.flipImage(getDoorImage(), getCoordinates(), Math.toRadians(90 * direction)));
         buffer.drawImage(getDoorImage().getScaledInstance(75, 75, Image.SCALE_DEFAULT), new Point(getCoordinates().getX() - (75 / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(),
                 getCoordinates().getY() - (75 / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY()));
+    }
+
+    @Override
+    public void loadSprites() {
+        try {
+            setSprites(ImageIO.read(this.getClass().getResourceAsStream("/LayoutEntities/Static/doors.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -23,10 +23,14 @@ import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Circle;
 import com.company.engine.sound.Sound;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class Player extends ControllableEntity {
-
+    // width : 17, height : 22
     MouseController mouse;
     private float bulletDelay = 30;
     private float shootTimer = 0;
@@ -34,10 +38,14 @@ public class Player extends ControllableEntity {
     private Vector2D dashingTo;
     private int iFrames;
     private int hp = 10;
+    private BufferedImage sprites;
+    private HashMap<String, BufferedImage[]> animations;
 
     public Player(MovementController keyboard, MouseController mouse, Point coord) {
         super(keyboard);
         this.mouse = mouse;
+        animations = new HashMap<>();
+        loadSprites();
         setHurtBox(new Circle(16f));
         setCoordinates(coord);
         setCurrentVector(new Vector2D());
@@ -162,6 +170,20 @@ public class Player extends ControllableEntity {
     @Override
     public void draw(Buffer buffer) {
         buffer.drawCircle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(), 16f, Color.GREEN);
+    }
+
+    @Override
+    public void loadSprites() {
+        try {
+            sprites = ImageIO.read(getClass().getResourceAsStream("/LayoutEntities/player.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < 6; i++) {
+
+        }
+
     }
 
     private void updateVector() {

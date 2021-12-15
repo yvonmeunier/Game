@@ -17,4 +17,6 @@ public abstract class StaticEntity {
 
     public abstract void draw(Buffer buffer);
 
+    public abstract void loadSprites();
+
 }

@@ -27,6 +27,23 @@ public class Fly extends NPC {
     private int currentFrame = 0;
     private int timer = 0;
 
+    @Override
+    public void loadSprites() {
+        try {
+            sprites = ImageIO.read(this.getClass().getResourceAsStream("/LayoutEntities/Dynamic/Enemies/monster_010_fly.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        moveAnimation[0] = sprites.getSubimage(0, 32, 32, 32);
+        moveAnimation[1] = sprites.getSubimage(32, 32, 32, 32);
+
+        for (int i = 0; i <= 3; i++) {
+            for (int j = 0; j <= 4; j++) {
+                deathAnimation[i + j] = sprites.getSubimage(j, i * 64, 64, 64);
+            }
+        }
+    }
+
     public Fly(Point coord) {
         setCoordinates(coord);
         setHurtBox(new Circle(10f));
@@ -39,19 +56,7 @@ public class Fly extends NPC {
         moveAnimation = new BufferedImage[2];
         deathAnimation = new BufferedImage[11];
         hp = 5;
-        try {
-            sprites = ImageIO.read(this.getClass().getResourceAsStream("/LayoutEntities/Dynamic/Enemies/monster_010_fly.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        moveAnimation[0] = sprites.getSubimage(0, 32, 32, 32);
-        moveAnimation[1] = sprites.getSubimage(32, 32, 32, 32);
-
-        for (int i = 0; i <= 3; i++) {
-            for (int j = 0; j <= 4; j++) {
-                deathAnimation[i + j] = sprites.getSubimage(j, i * 64,64,64);
-            }
-        }
+        loadSprites();
     }
 
     @Override
@@ -85,7 +90,7 @@ public class Fly extends NPC {
         //buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.GREEN);
         if (hp <= 0) {
             buffer.drawImage(deathAnimation[currentFrame].getScaledInstance(52, 52, Image.SCALE_DEFAULT), new Point(getCoordinates().getX() - (this.getHurtBox().getWidth() - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY()));
-        }else {
+        } else {
             buffer.drawImage(moveAnimation[currentFrame].getScaledInstance(52, 52, Image.SCALE_DEFAULT), new Point(getCoordinates().getX() - (this.getHurtBox().getWidth() - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY()));
         }
     }

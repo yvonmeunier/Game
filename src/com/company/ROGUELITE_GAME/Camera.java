@@ -76,4 +76,9 @@ public class Camera extends MovableEntity {
     public void draw(Buffer buffer) {
 
     }
+
+    @Override
+    public void loadSprites() {
+
+    }
 }

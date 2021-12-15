@@ -24,4 +24,9 @@ public class Blockade extends CollidableEntity {
     public void draw(Buffer buffer) {
         //buffer.drawRectangle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth(), getHurtBox().getHeight(), Color.GREEN);
     }
+
+    @Override
+    public void loadSprites() {
+
+    }
 }

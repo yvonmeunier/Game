@@ -28,18 +28,24 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Player extends ControllableEntity {
-    // width : 17, height : 22
     MouseController mouse;
     private float bulletDelay = 30;
     private float shootTimer = 0;
+    private int shootCount = 0;
     private boolean dashing;
     private Vector2D dashingTo;
     private int iFrames;
     private int hp = 10;
     private BufferedImage sprites;
     private HashMap<String, BufferedImage[]> animations;
+    private BufferedImage[] currentAnimation;
+    private int currentFrame;
+    private int animationTimer;
+    private final int frameDelay = 10;
+    private final Random rnd = new Random();
 
     public Player(MovementController keyboard, MouseController mouse, Point coord) {
         super(keyboard);
@@ -58,7 +64,7 @@ public class Player extends ControllableEntity {
     @Override
     public void update() {
         super.update();
-        if(!dashing) {
+        if (!dashing) {
             updateVector();
             updateMouse();
         }
@@ -67,10 +73,13 @@ public class Player extends ControllableEntity {
             shoot();
             shootTimer = bulletDelay;
         }
+        if ((shootCount % 5) == 0 && shootTimer == 5) {
+            new Sound("reload").play();
+        }
         if (mouse.buttonDownOnce(3)) {
             dash();
         }
-        if(getController() instanceof GamePad gp && gp.isBombPressed() && shootTimer <= 0) {
+        if (getController() instanceof GamePad gp && gp.isBombPressed() && shootTimer <= 0) {
             bomb();
             shootTimer = bulletDelay;
         }
@@ -81,11 +90,73 @@ public class Player extends ControllableEntity {
                 MovingRepository.getInstance().getEntities().remove(this);
             }
         }
-        if(dashing) {
+        if (dashing) {
             dash();
         }
+
+        updateAnimation();
+
+        if (animationTimer <= 0 && (Math.abs(getCurrentVector().x) > 0.3 || Math.abs(getCurrentVector().y) > 0.3)) {
+            playFootStep();
+            currentFrame++;
+            animationTimer = frameDelay;
+
+        }
+        if (currentFrame > 5) {
+            currentFrame = 0;
+        }
+        animationTimer--;
         shootTimer--;
         iFrames--;
+    }
+
+    private void playFootStep() {
+
+        switch (currentFrame) {
+            case 1:
+                new Sound("foot1").play();
+                break;
+            case 3:
+                new Sound("foot2").play();
+                break;
+            case 5:
+                new Sound("foot3").play();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void updateAnimation() {
+
+        Vector2D direction;
+        direction = Vector2D.normalizeVector(new Vector2D(mouse.getPosition().x - getCoordinates().getX() + Camera.getInstance().getCoordinates().getX() - 16, mouse.getPosition().y - getCoordinates().getY() + Camera.getInstance().getCoordinates().getY() - 16));
+
+        if (direction.y <= 0) {
+            if (direction.x >= -0.45 && direction.x <= 0.45) {
+                currentAnimation = animations.get("up");
+            }
+            if (direction.x < -0.45) {
+                currentAnimation = animations.get("leftUp");
+            }
+            if (direction.x > 0.45) {
+                currentAnimation = animations.get("rightUp");
+            }
+        }
+
+        if (direction.y > 0) {
+            if (direction.x >= -0.45 && direction.x <= 0.45) {
+                currentAnimation = animations.get("down");
+            }
+            if (direction.x < -0.45) {
+                currentAnimation = animations.get("leftDown");
+            }
+            if (direction.x > 0.45) {
+                currentAnimation = animations.get("rightDown");
+            }
+        }
+
     }
 
     public int getHp() {
@@ -98,14 +169,14 @@ public class Player extends ControllableEntity {
 
     private void dash() {
         float dashSpeed = 50;
-        if(!dashing) {
+        if (!dashing) {
             dashingTo = this.getCoordinates().toVector().addVector(getCurrentVector().multiplyVector(dashSpeed));
             dashing = true;
             iFrames = 20;
         }
         Vector2D velocity = Vector2D.lerp(getCoordinates().toVector(), dashingTo, 0.3f);
         setCoordinates(velocity.toPoint());
-        if(Vector2D.getDistanceBetweenVectors(getCoordinates().toVector(), dashingTo) < 10) {
+        if (Vector2D.getDistanceBetweenVectors(getCoordinates().toVector(), dashingTo) < 10) {
             dashing = false;
             dashingTo = Vector2D.ZERO;
             return;
@@ -114,6 +185,8 @@ public class Player extends ControllableEntity {
     }
 
     private void shoot() {
+        new Sound("gun").play();
+        shootCount++;
         Vector2D velocity;
         velocity = Vector2D.normalizeVector(new Vector2D(mouse.getPosition().x - getCoordinates().getX() + Camera.getInstance().getCoordinates().getX() - 16, mouse.getPosition().y - getCoordinates().getY() + Camera.getInstance().getCoordinates().getY() - 16));
         new Bullet(getCoordinates(), velocity);
@@ -132,7 +205,7 @@ public class Player extends ControllableEntity {
     public void onCollide(MovableEntity other) {
         if (other instanceof NPC && iFrames <= 0 && !dashing) {
             new Sound("oof").play();
-            hp -=3;
+            hp -= 3;
             iFrames = 60;
         }
     }
@@ -170,6 +243,7 @@ public class Player extends ControllableEntity {
     @Override
     public void draw(Buffer buffer) {
         buffer.drawCircle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(), 16f, Color.GREEN);
+        buffer.drawImage(currentAnimation[currentFrame].getScaledInstance(52, 52, Image.SCALE_DEFAULT), getCoordinates().getX() - Camera.getInstance().getCoordinates().getX() - 8, getCoordinates().getY() - Camera.getInstance().getCoordinates().getY() - 8);
     }
 
     @Override
@@ -180,10 +254,63 @@ public class Player extends ControllableEntity {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < 6; i++) {
+        BufferedImage[] up = new BufferedImage[6];
+        BufferedImage[] down = new BufferedImage[6];
+        BufferedImage[] leftUp = new BufferedImage[6];
+        BufferedImage[] rightUp = new BufferedImage[6];
+        BufferedImage[] leftDown = new BufferedImage[6];
+        BufferedImage[] rightDown = new BufferedImage[6];
 
-        }
-
+        // F la taille de mes sprites sont pas consistante RIP
+        // SORRY TUCKER
+        // up X
+        up[0] = sprites.getSubimage(0, 47, 18, 23);
+        up[1] = sprites.getSubimage(18, 47, 17, 23);
+        up[2] = sprites.getSubimage(35, 47, 17, 23);
+        up[3] = sprites.getSubimage(52, 47, 18, 23);
+        up[4] = sprites.getSubimage(70, 47, 18, 23);
+        up[5] = sprites.getSubimage(88, 47, 18, 23);
+        animations.put("up", up);
+        // down X
+        down[0] = sprites.getSubimage(0, 0, 17, 23);
+        down[1] = sprites.getSubimage(18, 0, 17, 23);
+        down[2] = sprites.getSubimage(35, 0, 18, 23);
+        down[3] = sprites.getSubimage(52, 0, 18, 23);
+        down[4] = sprites.getSubimage(70, 0, 17, 23);
+        down[5] = sprites.getSubimage(87, 0, 17, 23);
+        animations.put("down", down);
+        //  left up X
+        leftUp[0] = sprites.getSubimage(0, 118, 19, 24);
+        leftUp[1] = sprites.getSubimage(19, 118, 18, 24);
+        leftUp[2] = sprites.getSubimage(37, 118, 18, 24);
+        leftUp[3] = sprites.getSubimage(55, 118, 16, 24);
+        leftUp[4] = sprites.getSubimage(71, 118, 17, 24);
+        leftUp[5] = sprites.getSubimage(88, 118, 19, 24);
+        animations.put("leftUp", leftUp);
+        // left down X
+        leftDown[0] = sprites.getSubimage(0, 94, 19, 24);
+        leftDown[1] = sprites.getSubimage(19, 94, 19, 24);
+        leftDown[2] = sprites.getSubimage(38, 94, 20, 24);
+        leftDown[3] = sprites.getSubimage(58, 94, 19, 24);
+        leftDown[4] = sprites.getSubimage(77, 94, 17, 24);
+        leftDown[5] = sprites.getSubimage(94, 94, 17, 24);
+        animations.put("leftDown", leftDown);
+        // right up X
+        rightUp[0] = sprites.getSubimage(0, 70, 19, 24);
+        rightUp[1] = sprites.getSubimage(19, 70, 17, 24);
+        rightUp[2] = sprites.getSubimage(36, 70, 16, 24);
+        rightUp[3] = sprites.getSubimage(52, 70, 18, 24);
+        rightUp[4] = sprites.getSubimage(70, 70, 18, 24);
+        rightUp[5] = sprites.getSubimage(88, 70, 19, 24);
+        animations.put("rightUp", rightUp);
+        // right down X
+        rightDown[0] = sprites.getSubimage(0, 24, 17, 24);
+        rightDown[1] = sprites.getSubimage(17, 24, 17, 24);
+        rightDown[2] = sprites.getSubimage(34, 24, 19, 24);
+        rightDown[3] = sprites.getSubimage(53, 24, 20, 24);
+        rightDown[4] = sprites.getSubimage(73, 24, 19, 24);
+        rightDown[5] = sprites.getSubimage(92, 24, 19, 24);
+        animations.put("rightDown", rightDown);
     }
 
     private void updateVector() {

@@ -51,6 +51,11 @@ public class HUD extends MovableEntity {
     }
 
     @Override
+    public void loadSprites() {
+
+    }
+
+    @Override
     public void onColliding(CollidableEntity other) throws CloneNotSupportedException {
 
     }

@@ -1,6 +1,7 @@
 package com.company.ROGUELITE_GAME.Entities.NPCs;
 
 import com.company.ROGUELITE_GAME.Entities.Player;
+import com.company.ROGUELITE_GAME.Entities.Projectiles.Bomb;
 import com.company.ROGUELITE_GAME.Entities.Projectiles.Bullet;
 import com.company.ROGUELITE_GAME.Entities.Projectiles.Projectile;
 import com.company.engine.Buffer;

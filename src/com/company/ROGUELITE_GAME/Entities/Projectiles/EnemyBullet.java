@@ -3,6 +3,7 @@ package com.company.ROGUELITE_GAME.Entities.Projectiles;
 import com.company.ROGUELITE_GAME.Blockade;
 import com.company.ROGUELITE_GAME.Camera;
 import com.company.ROGUELITE_GAME.Entities.NPCs.NPC;
+import com.company.ROGUELITE_GAME.Entities.Player;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
 import com.company.engine.Buffer;
@@ -15,14 +16,14 @@ import com.company.engine.sound.Sound;
 
 import java.awt.*;
 
-public class Bullet extends Projectile {
+public class EnemyBullet extends Projectile {
 
     private final int lifespan = 120;
 
-    public Bullet(Point coordinates,Vector2D velo) {
+    public EnemyBullet(Point coordinates, Vector2D velo) {
         setCoordinates(coordinates);
-        setHurtBox(new Circle(3));
-        setSpeed(4);
+        setHurtBox(new Circle(8));
+        setSpeed(3);
         setAccelerationRate(0.3f);
         setCurrentVector(velo);
         setCurrentVector(getCurrentVector().multiplyVector(getSpeed()));
@@ -45,8 +46,13 @@ public class Bullet extends Projectile {
     }
 
     @Override
+    public boolean onNPCHit(NPC npc) {
+        return false;
+    }
+
+    @Override
     public void onColliding(CollidableEntity other) throws CloneNotSupportedException {
-        if (other instanceof NPC || other instanceof Blockade) {
+        if (other instanceof Player || other instanceof Blockade) {
             new Sound("impact").play();
             active = false;
         }
@@ -59,6 +65,7 @@ public class Bullet extends Projectile {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.YELLOW);
+        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY()- (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.RED);
     }
+
 }

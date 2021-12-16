@@ -12,14 +12,15 @@ import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.Vector2D;
 import com.company.engine.math.shapes.Rectangle;
+import com.company.engine.sound.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
-public class Obaoma extends NPC {
-
+public class Amogus extends NPC {
     private Image moveAnimation;
     private Image[] deathAnimation;
     private BufferedImage sprites;
@@ -27,11 +28,12 @@ public class Obaoma extends NPC {
     private int frameDelay = 5;
     private int currentFrame = 0;
     private int timer = 0;
+    private Random rnd = new Random();
 
     @Override
     public void loadSprites() {
         try {
-            sprites = ImageIO.read(this.getClass().getResourceAsStream("/LayoutEntities/Dynamic/Enemies/obama.png"));
+            sprites = ImageIO.read(this.getClass().getResourceAsStream("/LayoutEntities/Dynamic/Enemies/test.png"));
             deathSprites = ImageIO.read(this.getClass().getResourceAsStream("/LayoutEntities/Dynamic/Enemies/monster_010_fly.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,16 +47,16 @@ public class Obaoma extends NPC {
         }
     }
 
-    public Obaoma(Point coord) {
+    public Amogus(com.company.engine.math.Point coord) {
         setCoordinates(coord);
         setHurtBox(new Rectangle(20, 20));
         setCurrentVector(new Vector2D());
-        setSpeed(1);
+        setSpeed(5);
         setAccelerationRate(0.2f);
         MovableRepository.getInstance().getEntities().add(this);
         CollidableRepository.getInstance().getEntities().add(this);
         deathAnimation = new BufferedImage[11];
-        hp = 10;
+        hp = 1;
         loadSprites();
     }
 
@@ -88,7 +90,7 @@ public class Obaoma extends NPC {
     public void draw(Buffer buffer) {
         //buffer.drawRectangle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth(),getHurtBox().getHeight(), Color.GREEN);
         if (hp <= 0) {
-            buffer.drawImage(deathAnimation[currentFrame], new Point(getCoordinates().getX() - (this.getHurtBox().getWidth() - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth()) - Camera.getInstance().getCoordinates().getX() - 25, getCoordinates().getY() - (this.getHurtBox().getHeight() - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight()) - Camera.getInstance().getCoordinates().getY() - 40));
+            buffer.drawImage(deathAnimation[currentFrame], new com.company.engine.math.Point(getCoordinates().getX() - (this.getHurtBox().getWidth() - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth()) - Camera.getInstance().getCoordinates().getX() - 25, getCoordinates().getY() - (this.getHurtBox().getHeight() - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight()) - Camera.getInstance().getCoordinates().getY() - 40));
         } else {
             buffer.drawImage(moveAnimation, new Point(getCoordinates().getX() - (this.getHurtBox().getWidth() - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth()) - Camera.getInstance().getCoordinates().getX() - 25, getCoordinates().getY() - (this.getHurtBox().getHeight() - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight()) - Camera.getInstance().getCoordinates().getY() - 40));
         }
@@ -117,14 +119,16 @@ public class Obaoma extends NPC {
                 }
             }
         }
-
-
     }
 
     private void shoot(Player player) {
 
-        Vector2D velocity = Vector2D.normalizeVector(new Vector2D(player.getCoordinates().getX() - getCoordinates().getX(), player.getCoordinates().getY() - getCoordinates().getY()));
-        new EnemyBullet(getCoordinates(), velocity);
+        Vector2D velocityA = Vector2D.normalizeVector(new Vector2D(player.getCoordinates().getX() - getCoordinates().getX(), player.getCoordinates().getY() - getCoordinates().getY()));
+        Vector2D velocityB = Vector2D.normalizeVector(velocityA.addVector(rnd.nextFloat()));
+        Vector2D velocityC = Vector2D.normalizeVector(velocityA.subVector(rnd.nextFloat()));
+        new EnemyBullet(getCoordinates(), velocityA);
+        new EnemyBullet(getCoordinates(),velocityB);
+        new EnemyBullet(getCoordinates(),velocityC);
     }
 
 }

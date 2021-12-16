@@ -7,6 +7,8 @@ import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.Point;
 import com.company.engine.math.shapes.Shape;
 
+import java.awt.*;
+
 public class Blockade extends CollidableEntity {
 
     public Blockade(Point coord, Shape shape) {

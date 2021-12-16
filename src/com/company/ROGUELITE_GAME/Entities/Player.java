@@ -7,10 +7,10 @@ import com.company.ROGUELITE_GAME.Entities.NPCs.Fly;
 import com.company.ROGUELITE_GAME.Entities.NPCs.NPC;
 import com.company.ROGUELITE_GAME.Entities.Projectiles.Bomb;
 import com.company.ROGUELITE_GAME.Entities.Projectiles.Bullet;
+import com.company.ROGUELITE_GAME.Entities.Projectiles.EnemyBullet;
 import com.company.ROGUELITE_GAME.GamePad;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
-import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.controls.MouseController;
 import com.company.engine.controls.MovementController;
@@ -40,8 +40,8 @@ public class Player extends ControllableEntity {
     private int iFrames;
     private int hp = 10;
     private BufferedImage sprites;
-    private HashMap<String, BufferedImage[]> animations;
-    private BufferedImage[] currentAnimation;
+    private HashMap<String, Image[]> animations;
+    private Image[] currentAnimation;
     private int currentFrame;
     private int animationTimer;
     private final int frameDelay = 10;
@@ -52,7 +52,7 @@ public class Player extends ControllableEntity {
         this.mouse = mouse;
         animations = new HashMap<>();
         loadSprites();
-        setHurtBox(new Circle(16f));
+        setHurtBox(new Circle(8f));
         setCoordinates(coord);
         setCurrentVector(new Vector2D());
         setSpeed(2.5f);
@@ -82,13 +82,6 @@ public class Player extends ControllableEntity {
         if (getController() instanceof GamePad gp && gp.isBombPressed() && shootTimer <= 0) {
             bomb();
             shootTimer = bulletDelay;
-        }
-        if (getCurrentVector() != Vector2D.ZERO) {
-            MovingRepository.getInstance().getEntities().add(this);
-        } else {
-            if (MovingRepository.getInstance().getEntities().contains(this)) {
-                MovingRepository.getInstance().getEntities().remove(this);
-            }
         }
         if (dashing) {
             dash();
@@ -203,7 +196,7 @@ public class Player extends ControllableEntity {
 
     @Override
     public void onCollide(MovableEntity other) {
-        if (other instanceof NPC && iFrames <= 0 && !dashing) {
+        if ((other instanceof NPC || other instanceof EnemyBullet) && iFrames <= 0 && !dashing) {
             new Sound("oof").play();
             hp -= 3;
             iFrames = 60;
@@ -242,8 +235,8 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawCircle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(), 16f, Color.GREEN);
-        buffer.drawImage(currentAnimation[currentFrame].getScaledInstance(52, 52, Image.SCALE_DEFAULT), getCoordinates().getX() - Camera.getInstance().getCoordinates().getX() - 8, getCoordinates().getY() - Camera.getInstance().getCoordinates().getY() - 8);
+        buffer.drawImage(currentAnimation[currentFrame], getCoordinates().getX() - Camera.getInstance().getCoordinates().getX() - 17, getCoordinates().getY() - Camera.getInstance().getCoordinates().getY() - 28);
+        //buffer.drawCircle(getCoordinates().getX() - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - Camera.getInstance().getCoordinates().getY(), 8f, Color.GREEN);
     }
 
     @Override
@@ -254,62 +247,62 @@ public class Player extends ControllableEntity {
             e.printStackTrace();
         }
 
-        BufferedImage[] up = new BufferedImage[6];
-        BufferedImage[] down = new BufferedImage[6];
-        BufferedImage[] leftUp = new BufferedImage[6];
-        BufferedImage[] rightUp = new BufferedImage[6];
-        BufferedImage[] leftDown = new BufferedImage[6];
-        BufferedImage[] rightDown = new BufferedImage[6];
+        Image[] up = new Image[6];
+        Image[] down = new Image[6];
+        Image[] leftUp = new Image[6];
+        Image[] rightUp = new Image[6];
+        Image[] leftDown = new Image[6];
+        Image[] rightDown = new Image[6];
 
         // F la taille de mes sprites sont pas consistante RIP
         // SORRY TUCKER
         // up X
-        up[0] = sprites.getSubimage(0, 47, 18, 23);
-        up[1] = sprites.getSubimage(18, 47, 17, 23);
-        up[2] = sprites.getSubimage(35, 47, 17, 23);
-        up[3] = sprites.getSubimage(52, 47, 18, 23);
-        up[4] = sprites.getSubimage(70, 47, 18, 23);
-        up[5] = sprites.getSubimage(88, 47, 18, 23);
+        up[0] = sprites.getSubimage(0, 47, 18, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        up[1] = sprites.getSubimage(18, 47, 17, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        up[2] = sprites.getSubimage(35, 47, 17, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        up[3] = sprites.getSubimage(52, 47, 18, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        up[4] = sprites.getSubimage(70, 47, 18, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        up[5] = sprites.getSubimage(88, 47, 18, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
         animations.put("up", up);
         // down X
-        down[0] = sprites.getSubimage(0, 0, 17, 23);
-        down[1] = sprites.getSubimage(18, 0, 17, 23);
-        down[2] = sprites.getSubimage(35, 0, 18, 23);
-        down[3] = sprites.getSubimage(52, 0, 18, 23);
-        down[4] = sprites.getSubimage(70, 0, 17, 23);
-        down[5] = sprites.getSubimage(87, 0, 17, 23);
+        down[0] = sprites.getSubimage(0, 0, 17, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        down[1] = sprites.getSubimage(18, 0, 17, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        down[2] = sprites.getSubimage(35, 0, 18, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        down[3] = sprites.getSubimage(52, 0, 18, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        down[4] = sprites.getSubimage(70, 0, 17, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
+        down[5] = sprites.getSubimage(87, 0, 17, 23).getScaledInstance(52, 52, Image.SCALE_FAST);
         animations.put("down", down);
         //  left up X
-        leftUp[0] = sprites.getSubimage(0, 118, 19, 24);
-        leftUp[1] = sprites.getSubimage(19, 118, 18, 24);
-        leftUp[2] = sprites.getSubimage(37, 118, 18, 24);
-        leftUp[3] = sprites.getSubimage(55, 118, 16, 24);
-        leftUp[4] = sprites.getSubimage(71, 118, 17, 24);
-        leftUp[5] = sprites.getSubimage(88, 118, 19, 24);
+        leftUp[0] = sprites.getSubimage(0, 118, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftUp[1] = sprites.getSubimage(19, 118, 18, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftUp[2] = sprites.getSubimage(37, 118, 18, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftUp[3] = sprites.getSubimage(55, 118, 16, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftUp[4] = sprites.getSubimage(71, 118, 17, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftUp[5] = sprites.getSubimage(88, 118, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
         animations.put("leftUp", leftUp);
         // left down X
-        leftDown[0] = sprites.getSubimage(0, 94, 19, 24);
-        leftDown[1] = sprites.getSubimage(19, 94, 19, 24);
-        leftDown[2] = sprites.getSubimage(38, 94, 20, 24);
-        leftDown[3] = sprites.getSubimage(58, 94, 19, 24);
-        leftDown[4] = sprites.getSubimage(77, 94, 17, 24);
-        leftDown[5] = sprites.getSubimage(94, 94, 17, 24);
+        leftDown[0] = sprites.getSubimage(0, 94, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftDown[1] = sprites.getSubimage(19, 94, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftDown[2] = sprites.getSubimage(38, 94, 20, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftDown[3] = sprites.getSubimage(58, 94, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftDown[4] = sprites.getSubimage(77, 94, 17, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        leftDown[5] = sprites.getSubimage(94, 94, 17, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
         animations.put("leftDown", leftDown);
         // right up X
-        rightUp[0] = sprites.getSubimage(0, 70, 19, 24);
-        rightUp[1] = sprites.getSubimage(19, 70, 17, 24);
-        rightUp[2] = sprites.getSubimage(36, 70, 16, 24);
-        rightUp[3] = sprites.getSubimage(52, 70, 18, 24);
-        rightUp[4] = sprites.getSubimage(70, 70, 18, 24);
-        rightUp[5] = sprites.getSubimage(88, 70, 19, 24);
+        rightUp[0] = sprites.getSubimage(0, 70, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightUp[1] = sprites.getSubimage(19, 70, 17, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightUp[2] = sprites.getSubimage(36, 70, 16, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightUp[3] = sprites.getSubimage(52, 70, 18, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightUp[4] = sprites.getSubimage(70, 70, 18, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightUp[5] = sprites.getSubimage(88, 70, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
         animations.put("rightUp", rightUp);
         // right down X
-        rightDown[0] = sprites.getSubimage(0, 24, 17, 24);
-        rightDown[1] = sprites.getSubimage(17, 24, 17, 24);
-        rightDown[2] = sprites.getSubimage(34, 24, 19, 24);
-        rightDown[3] = sprites.getSubimage(53, 24, 20, 24);
-        rightDown[4] = sprites.getSubimage(73, 24, 19, 24);
-        rightDown[5] = sprites.getSubimage(92, 24, 19, 24);
+        rightDown[0] = sprites.getSubimage(0, 24, 17, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightDown[1] = sprites.getSubimage(17, 24, 17, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightDown[2] = sprites.getSubimage(34, 24, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightDown[3] = sprites.getSubimage(53, 24, 20, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightDown[4] = sprites.getSubimage(73, 24, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
+        rightDown[5] = sprites.getSubimage(92, 24, 19, 24).getScaledInstance(52, 52, Image.SCALE_FAST);
         animations.put("rightDown", rightDown);
     }
 

@@ -1,12 +1,12 @@
 package com.company.ROGUELITE_GAME;
 
+import com.company.ROGUELITE_GAME.Entities.NPCs.Amogus;
 import com.company.ROGUELITE_GAME.Entities.NPCs.Fly;
 import com.company.ROGUELITE_GAME.Entities.NPCs.NPC;
+import com.company.ROGUELITE_GAME.Entities.NPCs.Obaoma;
 import com.company.ROGUELITE_GAME.Entities.Player;
-import com.company.ROGUELITE_GAME.Entities.Projectiles.Bullet;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
-import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.ROGUELITE_GAME.WorldGen.Floor;
 import com.company.ROGUELITE_GAME.WorldGen.FloorGenerator;
 import com.company.ROGUELITE_GAME.WorldGen.Room;
@@ -16,8 +16,6 @@ import com.company.engine.RenderingEngine;
 import com.company.engine.controls.MouseController;
 import com.company.engine.entities.CollidableEntity;
 import com.company.engine.entities.MovableEntity;
-import com.company.engine.entities.StaticEntity;
-import com.company.engine.entities.UpdatableEntity;
 import com.company.engine.math.CollisionManager;
 import com.company.engine.math.Point;
 import com.company.engine.math.shapes.Rectangle;
@@ -53,7 +51,7 @@ public class RogueliteGame extends Game {
         player = new Player(gamePad,mouse,new Point(640,360));
         camera = Camera.getInstance();
         hud = HUD.getInstance();
-        level = 3;
+        level = 1;
         width = 20;
         height = 20;
         currentFloor = FloorGenerator.getInstance().generateFloor(width,height,level);
@@ -64,7 +62,7 @@ public class RogueliteGame extends Game {
         walls = new ArrayList<>();
         npcs.add(new Fly(new Point(52,level + 52)));
         walls.add(new Blockade(new Point(0,0),new Rectangle(3224,72)));
-        walls.add(new Blockade(new Point(0,952),new Rectangle(3224,72)));
+        walls.add(new Blockade(new Point(0,970),new Rectangle(3224,72)));
         walls.add(new Blockade(new Point(0,75),new Rectangle(72,3224)));
         walls.add(new Blockade(new Point(1582,75),new Rectangle(72,3224)));
         //new Sound("soundtrack").playWithLoop();
@@ -77,12 +75,7 @@ public class RogueliteGame extends Game {
 
     @Override
     public void update() throws CloneNotSupportedException {
-        enemyLeft = 0;
-        for (NPC npc:npcs) {
-            if (npc.isActive()) {
-                enemyLeft++;
-            }
-        }
+        enemyLeft = npcs.size();
         if (gamePad.isQuitPressed()) {
             stop();
         }
@@ -91,10 +84,16 @@ public class RogueliteGame extends Game {
             if (entity instanceof Fly) {
                 ((Fly)entity).update(player);
             }
+            if (entity instanceof Obaoma) {
+                ((Obaoma)entity).update(player);
+            }
+            if (entity instanceof Amogus) {
+                ((Amogus)entity).update(player);
+            }
             entity.update();
         }
 
-        for (MovableEntity entity: MovingRepository.getInstance().getEntities()) {
+        for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
             for (CollidableEntity other: CollidableRepository.getInstance().getEntities()) {
                 if (CollisionManager.isGoingToCollide(entity,other) && entity != other) {
                     entity.onColliding(other);
@@ -113,13 +112,19 @@ public class RogueliteGame extends Game {
 
         MovableRepository.getInstance().getEntities().removeIf(movableEntity -> !movableEntity.isActive());
         CollidableRepository.getInstance().getEntities().removeIf(collidableEntity -> !collidableEntity.isActive());
-        MovingRepository.getInstance().getEntities().removeIf(movingEntity -> !movingEntity.isActive());
         MovableRepository.getInstance().registerQueuedEntity();
+        npcs.removeIf(npc -> !npc.isActive());
         if (enemyLeft == 0) {
             level++;
             player.setHP(player.getHp() + (level/2));
             for (int i = 0; i < level; i++) {
                 npcs.add(new Fly(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
+                if (i % 2 == 0 ) {
+                    npcs.add(new Obaoma(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
+                }
+                if (i % 5 == 0) {
+                    npcs.add(new Amogus(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
+                }
             }
         }
         if (player.getHp() <= 0) {

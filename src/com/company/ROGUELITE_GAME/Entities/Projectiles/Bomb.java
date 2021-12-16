@@ -5,7 +5,6 @@ import com.company.ROGUELITE_GAME.Entities.NPCs.NPC;
 import com.company.ROGUELITE_GAME.Entities.Player;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
-import com.company.ROGUELITE_GAME.Repositories.MovingRepository;
 import com.company.engine.Buffer;
 import com.company.engine.entities.MovableEntity;
 import com.company.engine.math.Point;
@@ -24,7 +23,6 @@ public class Bomb extends Projectile {
         this.damage = 500;
         CollidableRepository.getInstance().getEntities().add(this);
         MovableRepository.getInstance().queueNewEntity(this);
-        MovingRepository.getInstance().getEntities().add(this);
 
         lifeTimer = 1;
     }
@@ -61,6 +59,11 @@ public class Bomb extends Projectile {
 
     @Override
     public void draw(Buffer buffer) {
-        buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.RED);
+        if (lifeTimer > 119) {
+            buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.ORANGE);
+        } else {
+            buffer.drawCircle(getCoordinates().getX() - (this.getHurtBox().getWidth() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getWidth() / 2) - Camera.getInstance().getCoordinates().getX(), getCoordinates().getY() - (this.getHurtBox().getHeight() / 2 - Camera.getInstance().getFollowedEntity().getHurtBox().getHeight() / 2) - Camera.getInstance().getCoordinates().getY(), getHurtBox().getWidth() / 2, Color.BLACK);
+
+        }
     }
 }

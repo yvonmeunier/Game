@@ -120,13 +120,13 @@ public class RogueliteGame extends Game {
             for (int i = 0; i < level; i++) {
 
                 npcs.add(new Fly(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
-                if (i % 2 == 0 ) {
+                if (i % 2 == 0 && i > 2) {
                     npcs.add(new Obaoma(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
                 }
-                if (i % 5 == 0) {
+                if (i % 5 == 0 && i > 5) {
                     npcs.add(new Amogus(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
                 }
-                if(i % 10 == 0) {
+                if(i > 10 && i % 10 == 0 ) {
                     npcs.add(new Duke(new Point(rnd.nextInt(1280 - 300) + 100,rnd.nextInt(720 - 300) + 100)));
                 }
             }

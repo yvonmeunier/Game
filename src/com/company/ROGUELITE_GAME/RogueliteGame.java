@@ -62,7 +62,7 @@ public class RogueliteGame extends Game {
         walls.add(new Blockade(new Point(0,970),new Rectangle(3224,72)));
         walls.add(new Blockade(new Point(0,75),new Rectangle(72,3224)));
         walls.add(new Blockade(new Point(1582,75),new Rectangle(72,3224)));
-        new Sound("soundtrack").playWithLoop();
+        //new Sound("soundtrack").playWithLoop();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class RogueliteGame extends Game {
                     npcs.add(new Amogus(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
                 }
                 if(i % 10 == 0) {
-                    npcs.add(new Duke(new Point(rnd.nextInt(1280 - 300),rnd.nextInt(720 - 300))));
+                    npcs.add(new Duke(new Point(rnd.nextInt(1280 - 300) + 100,rnd.nextInt(720 - 300) + 100)));
                 }
             }
         }

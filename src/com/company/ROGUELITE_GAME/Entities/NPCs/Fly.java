@@ -32,7 +32,7 @@ public class Fly extends NPC {
         setCurrentVector(new Vector2D());
         setSpeed(3);
         setAccelerationRate(0.2f);
-        MovableRepository.getInstance().getEntities().add(this);
+        MovableRepository.getInstance().queueNewEntity(this);
         CollidableRepository.getInstance().getEntities().add(this);
         moveAnimation = new Image[2];
         deathAnimation = new Image[11];

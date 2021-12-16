@@ -1,9 +1,6 @@
 package com.company.ROGUELITE_GAME;
 
-import com.company.ROGUELITE_GAME.Entities.NPCs.Amogus;
-import com.company.ROGUELITE_GAME.Entities.NPCs.Fly;
-import com.company.ROGUELITE_GAME.Entities.NPCs.NPC;
-import com.company.ROGUELITE_GAME.Entities.NPCs.Obaoma;
+import com.company.ROGUELITE_GAME.Entities.NPCs.*;
 import com.company.ROGUELITE_GAME.Entities.Player;
 import com.company.ROGUELITE_GAME.Repositories.CollidableRepository;
 import com.company.ROGUELITE_GAME.Repositories.MovableRepository;
@@ -81,14 +78,17 @@ public class RogueliteGame extends Game {
         }
 
         for (MovableEntity entity: MovableRepository.getInstance().getEntities()) {
-            if (entity instanceof Fly) {
-                ((Fly)entity).update(player);
+            if (entity instanceof Fly fly) {
+                fly.update(player);
             }
-            if (entity instanceof Obaoma) {
-                ((Obaoma)entity).update(player);
+            if (entity instanceof Obaoma obaoma) {
+                obaoma.update(player);
             }
-            if (entity instanceof Amogus) {
-                ((Amogus)entity).update(player);
+            if (entity instanceof Amogus amogus) {
+                amogus.update(player);
+            }
+            if (entity instanceof Duke duke) {
+                duke.update(npcs);
             }
             entity.update();
         }
@@ -117,13 +117,18 @@ public class RogueliteGame extends Game {
         if (enemyLeft == 0) {
             level++;
             player.setHP(player.getHp() + (level/2));
+            boolean spawned = false;
             for (int i = 0; i < level; i++) {
+
                 npcs.add(new Fly(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
                 if (i % 2 == 0 ) {
                     npcs.add(new Obaoma(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
                 }
                 if (i % 5 == 0) {
                     npcs.add(new Amogus(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
+                }
+                if(i % 10 == 0) {
+                    npcs.add(new Duke(new Point(rnd.nextInt(1280 - 104),rnd.nextInt(720 - 104))));
                 }
             }
         }

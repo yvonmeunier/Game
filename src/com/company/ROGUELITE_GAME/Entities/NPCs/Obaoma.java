@@ -51,7 +51,7 @@ public class Obaoma extends NPC {
         setCurrentVector(new Vector2D());
         setSpeed(1);
         setAccelerationRate(0.2f);
-        MovableRepository.getInstance().getEntities().add(this);
+        MovableRepository.getInstance().queueNewEntity(this);
         CollidableRepository.getInstance().getEntities().add(this);
         deathAnimation = new BufferedImage[11];
         hp = 10;
